@@ -9,14 +9,15 @@ beforeEach(function () {
     withoutExceptionHandling();
 });
 
-it('can create a post with title, desc and body', function () {
+it('can create a post with title, desc, body, slug', function () {
     $post = [
         'title' => 'this is the post title',
         'body' => 'this is the post body what do you think?',
-        'description' => 'this is the post description'
+        'description' => 'this is the post description',
+        'slug' => 'this-is-a-slug'
     ];
 
-    POST("/api/posts", $post)->assertStatus(201);
+    POST("/api/posts", $post)->assertstatus(201);
 
     assertDatabaseHas('posts', $post);
 });
@@ -44,3 +45,18 @@ test('every post should have a description', function () {
 
     assertDatabaseMissing('posts', $post);
 });
+
+test('every post should have a slug', function () {
+    withExceptionHandling();
+    $post = [
+        'title' => 'this is the post title',
+        'body' => 'this is the post body',
+        'description' => 'this is the post description',
+        'slug' => null
+    ];
+
+    POST("/api/posts", $post)->assertStatus(302);
+
+    assertDatabaseMissing('posts', $post);
+});
+

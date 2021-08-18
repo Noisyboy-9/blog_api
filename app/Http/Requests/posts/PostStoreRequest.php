@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\posts;
 
+use App\Rules\Slug;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PostStoreRequest extends FormRequest
@@ -21,12 +22,13 @@ class PostStoreRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            'title' => 'required',
-            'body' => 'required',
-            'description' => 'required'
+            'title' => ['required'],
+            'body' => ['required'],
+            'description' => ['required'],
+            'slug' => ['required', new slug()]
         ];
     }
 }
