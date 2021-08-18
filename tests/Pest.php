@@ -1,7 +1,7 @@
 <?php
 
+use App\Models\Post;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Testing\TestResponse;
 use Tests\TestCase;
 
 uses(TestCase::class, RefreshDatabase::class)->in('Feature');
@@ -12,29 +12,14 @@ expect()->extend('toBeOne', function () {
 });
 
 
-//helpers
-function GET(string $url): TestResponse
+function addNewPost(array $attributes = []): Post
 {
-    return test()->get($url);
+    return Post::factory()->create($attributes);
 }
 
-function POST(string $url, array $data): TestResponse
+function scaffoldNewPost(array $attributes = []): array
 {
-    return test()->post($url, $data);
+    return Post::factory()
+        ->make($attributes)
+        ->toArray();
 }
-
-function DELETE(string $url): TestResponse
-{
-    return test()->delete($url);
-}
-
-function PATCH(string $url, array $data): TestResponse
-{
-    return test()->delete($url, $data);
-}
-
-function PUT(string $url, array $data): TestResponse
-{
-    return test()->put($url, $data);
-}
-

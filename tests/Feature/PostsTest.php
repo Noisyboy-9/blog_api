@@ -2,6 +2,7 @@
 
 use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\assertDatabaseMissing;
+use function Pest\Laravel\post;
 use function Pest\Laravel\withExceptionHandling;
 use function Pest\Laravel\withoutExceptionHandling;
 
@@ -17,7 +18,10 @@ it('can create a post with title, desc, body, slug', function () {
         'slug' => 'this-is-a-slug'
     ];
 
-    POST("/api/posts", $post)->assertstatus(201);
+    expect(post("/api/posts", $post)->baseResponse->content())
+        ->json()
+        ->message->toEqual("Post created successfully!")
+        ->data->toBeArray();
 
     assertDatabaseHas('posts', $post);
 });
@@ -29,7 +33,9 @@ it('should not create a post with invalid data', function () {
         'body' => 'the post body',
         'description' => 'this is the desc'
     ];
-    POST("/api/posts", $post)->assertStatus(302);
+
+    expect(post("/api/posts", $post)->status())->toEqual(302);
+
     assertDatabaseMissing('posts', $post);
 });
 
@@ -41,13 +47,14 @@ test('every post should have a description', function () {
         'description' => null
     ];
 
-    POST("/api/posts", $post)->assertStatus(302);
+    expect(post("/api/posts", $post)->status())->toEqual(302);
 
     assertDatabaseMissing('posts', $post);
 });
 
 test('every post should have a slug', function () {
     withExceptionHandling();
+
     $post = [
         'title' => 'this is the post title',
         'body' => 'this is the post body',
@@ -55,8 +62,26 @@ test('every post should have a slug', function () {
         'slug' => null
     ];
 
-    POST("/api/posts", $post)->assertStatus(302);
+    expect(post("api/posts", $post)->status())->toEqual(302);
 
     assertDatabaseMissing('posts', $post);
 });
 
+test('slugs should be unique', function () {
+    withExceptionHandling();
+
+    $post1 = addNewPost(['slug' => 'the-same-slug']);
+
+    assertDatabaseHas('posts', [
+        'title' => $post1->title,
+        'body' => $post1->body,
+        'description' => $post1->description,
+        'slug' => $post1->slug
+    ]);
+
+    $post2 = scaffoldNewPost(['slug' => 'the-same-slug']);
+
+    expect(post("/api/posts", $post2)->status())->toEqual(302);
+
+    assertDatabaseMissing('posts', $post2);
+});
