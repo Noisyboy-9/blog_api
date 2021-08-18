@@ -11,6 +11,8 @@
 |
 */
 
+use Illuminate\Testing\TestResponse;
+
 uses(Tests\TestCase::class)->in('Feature');
 
 /*
@@ -39,7 +41,28 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
+function GET(string $url): TestResponse
 {
-    // ..
+    return test()->get($url);
 }
+
+function POST(string $url, array $data): TestResponse
+{
+    return test()->post($url, $data);
+}
+
+function DELETE(string $url): TestResponse
+{
+    return test()->delete($url);
+}
+
+function PATCH(string $url, array $data): TestResponse
+{
+    return test()->delete($url, $data);
+}
+
+function PUT(string $url, array $data): TestResponse
+{
+    return test()->put($url, $data);
+}
+
