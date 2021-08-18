@@ -15,7 +15,7 @@ class PostController extends Controller
         Post::create($data);
 
         return response()->json([
-            'message' => 'post created successfully!',
+            'message' => 'Post created successfully!',
             'data' => $data
         ], 201);
     }
