@@ -1,6 +1,11 @@
 <?php
 
 use function Pest\Laravel\assertDatabaseHas;
+use function Pest\Laravel\withoutExceptionHandling;
+
+beforeEach(function () {
+    withoutExceptionHandling();
+});
 
 it('can create a post', function () {
     $post = [
@@ -8,7 +13,7 @@ it('can create a post', function () {
         'body' => 'this is the post body what do you think?'
     ];
 
-    POST("/posts", $post)->assertStatus(201);
+    POST("/api/posts", $post)->assertStatus(201);
 
-   assertDatabaseHas('posts', $post);
+    assertDatabaseHas('posts', $post);
 });
