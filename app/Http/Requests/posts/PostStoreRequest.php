@@ -25,9 +25,9 @@ class PostStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required'],
-            'body' => ['required'],
-            'description' => ['required'],
+            'title' => ['required', 'max:255', 'min: 5'],
+            'body' => ['required', 'min: 30'],
+            'description' => ['required', 'min: 10'],
             'slug' => ['required', new slug(), 'unique:posts']
         ];
     }

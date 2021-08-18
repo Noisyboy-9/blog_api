@@ -85,3 +85,4 @@ test('slugs should be unique', function () {
 
     assertDatabaseMissing('posts', $post2);
 });
+
