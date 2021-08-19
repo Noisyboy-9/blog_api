@@ -3,6 +3,7 @@
 use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\assertDatabaseMissing;
 use function Pest\Laravel\get;
+use function Pest\Laravel\patch;
 use function Pest\Laravel\post;
 use function Pest\Laravel\withExceptionHandling;
 use function Pest\Laravel\withoutExceptionHandling;
@@ -110,5 +111,30 @@ it("should fetch a post by its slug", function () {
         ->toHaveKey('body', $post->body)
         ->toHaveKey('description', $post->description)
         ->toHaveKey('slug', $post->slug);
+});
+
+test('a post can be updated', function () {
+    $post = addNewPost();
+    assertDatabaseHas('posts', [
+        'title' => $post->title,
+        'description' => $post->description,
+        'slug' => $post->slug,
+        'body' => $post->body
+    ]);
+
+    expect(patch("/api/posts/$post->slug", [
+        'slug' => $post->slug,
+        'title' => 'the new title'
+    ])->status())->toEqual(204);
+
+    assertDatabaseMissing('posts', $post->toArray());
+
+    assertDatabaseHas('posts', [
+        'id' => $post->id,
+        'slug' => $post->slug,
+        'title' => 'the new title',
+        'description' => $post->description,
+        'body' => $post->body
+    ]);
 });
 
