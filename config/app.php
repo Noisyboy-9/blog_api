@@ -1,5 +1,7 @@
 <?php
 
+use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
+
 return [
 
     /*
@@ -165,6 +167,7 @@ return [
         /*
          * Package Service Providers...
          */
+        IdeHelperServiceProvider::class,
 
         /*
          * Application Service Providers...
