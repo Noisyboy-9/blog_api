@@ -8,6 +8,11 @@ use Illuminate\Http\JsonResponse;
 
 class PostController extends Controller
 {
+    public function index(): JsonResponse
+    {
+        return response()->json(['data' => Post::all()->toArray()]);
+    }
+
     public function store(PostStoreRequest $storeRequest): JsonResponse
     {
         $data = $storeRequest->validated();
@@ -18,5 +23,12 @@ class PostController extends Controller
             'message' => 'Post created successfully!',
             'data' => $data
         ], 201);
+    }
+
+    public function show(Post $post): JsonResponse
+    {
+        return response()->json([
+            'data' => $post->toJson()
+        ]);
     }
 }

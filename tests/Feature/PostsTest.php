@@ -2,6 +2,7 @@
 
 use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\assertDatabaseMissing;
+use function Pest\Laravel\get;
 use function Pest\Laravel\post;
 use function Pest\Laravel\withExceptionHandling;
 use function Pest\Laravel\withoutExceptionHandling;
@@ -84,5 +85,30 @@ test('slugs should be unique', function () {
     expect(post("/api/posts", $post2)->status())->toEqual(302);
 
     assertDatabaseMissing('posts', $post2);
+});
+
+it('should fetch all posts', function () {
+    addNewPost();
+    addNewPost();
+    addNewPost();
+
+    expect(get('/api/posts')->content())
+        ->json()
+        ->data
+        ->toHaveCount(3);
+});
+
+it("should fetch a post by its slug", function () {
+    $post = addNewPost();
+
+    expect(get('/api/posts/' . $post->slug)->content())
+        ->json()
+        ->data
+        ->json()
+        ->toBeArray()
+        ->toHaveKey('title', $post->title)
+        ->toHaveKey('body', $post->body)
+        ->toHaveKey('description', $post->description)
+        ->toHaveKey('slug', $post->slug);
 });
 
