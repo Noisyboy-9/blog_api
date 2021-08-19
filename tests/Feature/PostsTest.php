@@ -2,6 +2,7 @@
 
 use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\assertDatabaseMissing;
+use function Pest\Laravel\delete;
 use function Pest\Laravel\get;
 use function Pest\Laravel\patch;
 use function Pest\Laravel\post;
@@ -185,5 +186,25 @@ it('should be able to update its slug', function () {
         'title' => $post->title,
         'description' => $post->description,
         'body' => $post->body
+    ]);
+});
+
+it('should be able to delete a post by its slug', function () {
+    $post = addNewPost();
+    assertDatabaseHas('posts', [
+        'title' => $post->title,
+        'body' => $post->body,
+        'slug' => $post->slug,
+        'description' => $post->description
+    ]);
+
+    expect(delete("/api/posts/$post->slug")->status())->toEqual(204);
+
+    assertDatabaseMissing('posts', [
+        'id' => $post->id,
+        'slug' => $post->slug,
+        'title' => $post->title,
+        'body' => $post->body,
+        'description' => $post->description
     ]);
 });

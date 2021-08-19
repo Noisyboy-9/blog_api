@@ -36,12 +36,22 @@ class PostController extends Controller
     public function update(PostUpdateRequest $updateRequest, Post $post): JsonResponse
     {
         $attributes = $updateRequest->validated();
-        
+
         $post->update($attributes);
 
         return response()->json([
             'message' => 'post updated successfully',
             'data' => $post->toArray()
+        ], 204);
+    }
+
+    public function destroy(Post $post)
+    {
+        $post->delete();
+
+        return response()->json([
+            'message' => 'post has been delete successfully',
+            'data' => $post->toArray(),
         ], 204);
     }
 }
