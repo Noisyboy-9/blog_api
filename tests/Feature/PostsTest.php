@@ -113,7 +113,7 @@ it("should fetch a post by its slug", function () {
         ->toHaveKey('slug', $post->slug);
 });
 
-test('a post can be updated', function () {
+test('a post can be update', function () {
     $post = addNewPost();
     assertDatabaseHas('posts', [
         'title' => $post->title,
@@ -138,3 +138,52 @@ test('a post can be updated', function () {
     ]);
 });
 
+it('should be able to update one or more of its fields', function () {
+    $post = addNewPost();
+    assertDatabaseHas('posts', [
+        'title' => $post->title,
+        'description' => $post->description,
+        'slug' => $post->slug,
+        'body' => $post->body
+    ]);
+
+    expect(patch("/api/posts/$post->slug", [
+        'slug' => $post->slug,
+        'description' => 'this is the new post body, this is the best description I can come up with'
+    ])->status())->toEqual(204);
+
+    assertDatabaseMissing('posts', $post->toArray());
+
+    assertDatabaseHas('posts', [
+        'id' => $post->id,
+        'slug' => $post->slug,
+        'title' => $post->title,
+        'description' => 'this is the new post body, this is the best description I can come up with',
+        'body' => $post->body
+    ]);
+});
+
+it('should be able to update its slug', function () {
+    $post = addNewPost();
+    assertDatabaseHas('posts', [
+        'title' => $post->title,
+        'description' => $post->description,
+        'slug' => $post->slug,
+        'body' => $post->body
+    ]);
+
+    expect(patch("/api/posts/$post->slug", [
+        'id' => $post->id,
+        'slug' => 'the-new-slug',
+    ])->status())->toEqual(204);
+
+    assertDatabaseMissing('posts', $post->toArray());
+
+    assertDatabaseHas('posts', [
+        'id' => $post->id,
+        'slug' => 'the-new-slug',
+        'title' => $post->title,
+        'description' => $post->description,
+        'body' => $post->body
+    ]);
+});

@@ -35,7 +35,9 @@ class PostController extends Controller
 
     public function update(PostUpdateRequest $updateRequest, Post $post): JsonResponse
     {
-        $post->update($updateRequest->validated());
+        $attributes = $updateRequest->validated();
+        
+        $post->update($attributes);
 
         return response()->json([
             'message' => 'post updated successfully',
