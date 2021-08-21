@@ -1,23 +1,10 @@
 <?php
 
-use App\Models\Category;
 use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\assertDatabaseMissing;
 use function Pest\Laravel\post;
 use function Pest\Laravel\withExceptionHandling;
 use function Pest\Laravel\withoutExceptionHandling;
-
-function addNewCategory(array $attributes = []): Category
-{
-    return Category::factory()->create($attributes);
-}
-
-function scaffoldNewCategory(array $attributes = []): array
-{
-    return Category::factory()
-        ->make($attributes)
-        ->toArray();
-}
 
 beforeEach(function () {
     withoutExceptionHandling();

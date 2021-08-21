@@ -4,6 +4,7 @@ namespace App\Http\Requests\posts;
 
 use App\Rules\Slug;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class PostStoreRequest extends FormRequest
 {
@@ -28,7 +29,8 @@ class PostStoreRequest extends FormRequest
             'title' => ['required', 'max:255', 'min: 5'],
             'body' => ['required', 'min: 30'],
             'description' => ['required', 'min: 10'],
-            'slug' => ['required', new slug(), 'unique:posts']
+            'slug' => ['required', new slug(), 'unique:posts'],
+            'category_id' => ['required', Rule::exists('categories', 'id')]
         ];
     }
 }

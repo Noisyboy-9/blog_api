@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Post;
 use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\assertDatabaseMissing;
 use function Pest\Laravel\delete;
@@ -11,31 +10,15 @@ use function Pest\Laravel\withExceptionHandling;
 use function Pest\Laravel\withoutExceptionHandling;
 
 
-function addNewPost(array $attributes = []): Post
-{
-    return Post::factory()->create($attributes);
-}
-
-function scaffoldNewPost(array $attributes = []): array
-{
-    return Post::factory()
-        ->make($attributes)
-        ->toArray();
-}
-
 beforeEach(function () {
     withoutExceptionHandling();
 });
 
 it('can create a post with title, desc, body, slug', function () {
-    $post = [
-        'title' => 'this is the post title',
-        'body' => 'this is the post body what do you think?',
-        'description' => 'this is the post description',
-        'slug' => 'this-is-a-slug'
-    ];
+    $category = addNewCategory();
+    $post = scaffoldNewPost(['category_id' => $category->id]);
 
-    expect(post("/api/posts", $post)->baseResponse->content())
+    expect(post("/api/posts", $post)->content())
         ->json()
         ->message->toEqual("Post created successfully!")
         ->data->toBeArray();
