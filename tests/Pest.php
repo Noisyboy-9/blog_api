@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Post;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -11,15 +10,7 @@ expect()->extend('toBeOne', function () {
     return $this->toBe(1);
 });
 
+expect()->extend('toBeInvalid', function () {
+    return $this->toEqual(302);
+});
 
-function addNewPost(array $attributes = []): Post
-{
-    return Post::factory()->create($attributes);
-}
-
-function scaffoldNewPost(array $attributes = []): array
-{
-    return Post::factory()
-        ->make($attributes)
-        ->toArray();
-}

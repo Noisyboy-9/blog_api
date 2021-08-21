@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Post;
 use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\assertDatabaseMissing;
 use function Pest\Laravel\delete;
@@ -8,6 +9,19 @@ use function Pest\Laravel\patch;
 use function Pest\Laravel\post;
 use function Pest\Laravel\withExceptionHandling;
 use function Pest\Laravel\withoutExceptionHandling;
+
+
+function addNewPost(array $attributes = []): Post
+{
+    return Post::factory()->create($attributes);
+}
+
+function scaffoldNewPost(array $attributes = []): array
+{
+    return Post::factory()
+        ->make($attributes)
+        ->toArray();
+}
 
 beforeEach(function () {
     withoutExceptionHandling();
@@ -37,7 +51,8 @@ it('should not create a post with invalid data', function () {
         'description' => 'this is the desc'
     ];
 
-    expect(post("/api/posts", $post)->status())->toEqual(302);
+    expect(post("/api/posts", $post)->status())
+        ->toBeInvalid();
 
     assertDatabaseMissing('posts', $post);
 });
@@ -50,7 +65,8 @@ test('every post should have a description', function () {
         'description' => null
     ];
 
-    expect(post("/api/posts", $post)->status())->toEqual(302);
+    expect(post("/api/posts", $post)->status())
+        ->toBeInvalid();
 
     assertDatabaseMissing('posts', $post);
 });
@@ -65,7 +81,8 @@ test('every post should have a slug', function () {
         'slug' => null
     ];
 
-    expect(post("api/posts", $post)->status())->toEqual(302);
+    expect(post("api/posts", $post)->status())
+        ->toBeInvalid();
 
     assertDatabaseMissing('posts', $post);
 });
@@ -84,7 +101,8 @@ test('slugs should be unique', function () {
 
     $post2 = scaffoldNewPost(['slug' => 'the-same-slug']);
 
-    expect(post("/api/posts", $post2)->status())->toEqual(302);
+    expect(post("/api/posts", $post2)->status())
+        ->toBeInvalid();
 
     assertDatabaseMissing('posts', $post2);
 });
@@ -166,6 +184,7 @@ it('should be able to update one or more of its fields', function () {
 
 it('should be able to update its slug', function () {
     $post = addNewPost();
+
     assertDatabaseHas('posts', [
         'title' => $post->title,
         'description' => $post->description,
