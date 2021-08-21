@@ -9,7 +9,7 @@ use Illuminate\Http\JsonResponse;
 
 class PostController extends Controller
 {
-    private array $filters = ['category'];
+    private array $filters = ['category', 'search'];
 
     public function index(): JsonResponse
     {

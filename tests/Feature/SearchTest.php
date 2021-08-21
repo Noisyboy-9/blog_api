@@ -1,0 +1,55 @@
+<?php
+
+use function Pest\Laravel\get;
+
+it('should retrieve posts by searching for slug', function () {
+    $post = addNewPost();
+
+    $response = get("/api/posts?search=$post->slug");
+
+    expect($response->content())
+        ->json()
+        ->data
+        ->toHaveCount(1)
+        ->and($response->status())
+        ->toEqual(200);
+});
+
+it('should retrieve posts by searching for title', function () {
+    $post = addNewPost();
+
+    $response = get("/api/posts?search=$post->title");
+
+    expect($response->content())
+        ->json()
+        ->data
+        ->toHaveCount(1)
+        ->and($response->status())
+        ->toEqual(200);
+});
+
+it('should retrieve posts by searching for body', function () {
+    $post = addNewPost();
+
+    $response = get("/api/posts?search=$post->body");
+
+    expect($response->content())
+        ->json()
+        ->data
+        ->toHaveCount(1)
+        ->and($response->status())
+        ->toEqual(200);
+});
+
+it('should retrieve posts by searching for description', function () {
+    $post = addNewPost();
+
+    $response = get("/api/posts?search=$post->description");
+
+    expect($response->content())
+        ->json()
+        ->data
+        ->toHaveCount(1)
+        ->and($response->status())
+        ->toEqual(200);
+});
