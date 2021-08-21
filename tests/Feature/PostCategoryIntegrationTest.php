@@ -41,7 +41,7 @@ it('should be able to retrieve all posts related to category using query string'
     $category->posts()->create(scaffoldNewPost());
     $category->posts()->create(scaffoldNewPost());
 
-    $response = get("/api/posts?category=" . $category->slug);
+    $response = get($category->path());
 
     expect($response->status())
         ->toEqual(200)
@@ -57,7 +57,7 @@ it('should not return a post not related to the category in the query string', f
     $category->posts()->create(scaffoldNewPost());
     addNewPost(); // post with category id not equal to $category->id
 
-    $response = get("/api/posts?category=" . $category->slug);
+    $response = get($category->path());
 
     expect($response->status())
         ->toEqual(200)
