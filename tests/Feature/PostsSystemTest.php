@@ -23,7 +23,13 @@ it('can create a post with title, desc, body, slug', function () {
         ->message->toEqual("Post created successfully!")
         ->data->toBeArray();
 
-    assertDatabaseHas('posts', $post);
+    assertDatabaseHas('posts', [
+        'title' => $post['title'],
+        'body' => $post['body'],
+        'description' => $post['description'],
+        'slug' => $post['slug'],
+        'category_id' => $category->id
+    ]);
 });
 
 it('should not create a post with invalid data', function () {
