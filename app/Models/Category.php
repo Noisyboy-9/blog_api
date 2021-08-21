@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property integer id
@@ -16,12 +17,12 @@ class Category extends Model
 
     protected $fillable = ['name', 'slug'];
 
-    public function path()
+    public function path(): string
     {
         return "/api/posts?category=$this->slug";
     }
 
-    public function posts()
+    public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
     }
