@@ -13,3 +13,4 @@ it('should have a list of posts', function () {
         ->and($category->posts->contains($post))
         ->toBeTrue();
 });
+

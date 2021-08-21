@@ -4,6 +4,12 @@
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Collection;
 use function Pest\Laravel\assertDatabaseHas;
+use function Pest\Laravel\get;
+use function Pest\Laravel\withoutExceptionHandling;
+
+beforeEach(function () {
+    withoutExceptionHandling();
+});
 
 test('every post should have a category', function () {
     $category = addNewCategory();
@@ -28,4 +34,35 @@ test('every post should have a category', function () {
         ->toBeInstanceOf(Category::class)
         ->and($post->category()->is($category))
         ->toBeTrue();
+});
+
+it('should be able to retrieve all posts related to category using query string', function () {
+    $category = addNewCategory();
+    $category->posts()->create(scaffoldNewPost());
+    $category->posts()->create(scaffoldNewPost());
+
+    $response = get("/api/posts?category=" . $category->slug);
+
+    expect($response->status())
+        ->toEqual(200)
+        ->and($response->content())
+        ->json()
+        ->data
+        ->toHaveCount(2);
+});
+
+it('should not return a post not related to the category in the query string', function () {
+    $category = addNewCategory();
+    $category->posts()->create(scaffoldNewPost());
+    $category->posts()->create(scaffoldNewPost());
+    addNewPost(); // post with category id not equal to $category->id
+
+    $response = get("/api/posts?category=" . $category->slug);
+
+    expect($response->status())
+        ->toEqual(200)
+        ->and($response->content())
+        ->json()
+        ->data
+        ->toHaveCount(2);
 });

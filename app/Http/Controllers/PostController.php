@@ -9,9 +9,13 @@ use Illuminate\Http\JsonResponse;
 
 class PostController extends Controller
 {
+    private array $filters = ['category'];
+
     public function index(): JsonResponse
     {
-        return response()->json(['data' => Post::all()->toArray()]);
+        return response()->json([
+            'data' => Post::latest()->filter(request()->only(...$this->filters))->get()
+        ]);
     }
 
     public function store(PostStoreRequest $storeRequest): JsonResponse
