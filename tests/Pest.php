@@ -2,7 +2,9 @@
 
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use JetBrains\PhpStorm\ArrayShape;
 use Tests\TestCase;
 
 uses(TestCase::class, RefreshDatabase::class)->in('Feature', 'Unit');
@@ -43,3 +45,29 @@ function scaffoldNewPost(array $attributes = []): array
         ->make($attributes)
         ->toArray();
 }
+
+// users
+function addNewUser(array $attributes = []): User
+{
+    return User::factory()->create($attributes);
+}
+
+#[ArrayShape(['username' => "string", 'email' => "string", 'password' => "string", 'password_confirmation' => "string"])]
+function scaffoldNewUser(array $attributes = []): array
+{
+    $user = [
+        'username' => 'noisyboy-9',
+        'email' => 'sina.shariati@yahoo.com',
+        'password' => 'admin123',
+        'password_confirmation' => 'admin123'
+    ];
+
+    foreach ($user as $key => $value) {
+        if (array_key_exists($key, $attributes)) {
+            $user[$key] = $attributes[$key];
+        }
+    }
+
+    return $user;
+}
+
