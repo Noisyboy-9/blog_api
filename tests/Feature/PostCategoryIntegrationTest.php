@@ -9,7 +9,7 @@ use function Pest\Laravel\withoutExceptionHandling;
 
 beforeEach(fn() => withoutExceptionHandling());
 
-test('every post should have a category', function () {
+test('every Post should have a Category', function () {
     $category = addNewCategory();
     $post = addNewPost(['category_id' => $category->id]);
 
@@ -34,7 +34,7 @@ test('every post should have a category', function () {
         ->toBeTrue();
 });
 
-it('should be able to retrieve all posts related to category using query string', function () {
+it('should be able to retrieve all posts related to Category using query string', function () {
     $category = addNewCategory();
     $category->posts()->create(scaffoldNewPost());
     $category->posts()->create(scaffoldNewPost());
@@ -49,11 +49,11 @@ it('should be able to retrieve all posts related to category using query string'
         ->toHaveCount(2);
 });
 
-it('should not return a post not related to the category in the query string', function () {
+it('should not return a Post not related to the Category in the query string', function () {
     $category = addNewCategory();
     $category->posts()->create(scaffoldNewPost());
     $category->posts()->create(scaffoldNewPost());
-    addNewPost(); // post with category id not equal to $category->id
+    addNewPost(); // Post with Category id not equal to $Category->id
 
     $response = get($category->path());
 

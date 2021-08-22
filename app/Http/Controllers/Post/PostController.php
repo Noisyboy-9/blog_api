@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Post;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\posts\PostStoreRequest;
 use App\Http\Requests\posts\PostUpdateRequest;
 use App\Models\Post;
@@ -9,7 +10,7 @@ use Illuminate\Http\JsonResponse;
 
 class PostController extends Controller
 {
-    private array $filters = ['category', 'search'];
+    private array $filters = ['Category', 'search'];
 
     public function index(): JsonResponse
     {
@@ -44,7 +45,7 @@ class PostController extends Controller
         $post->update($attributes);
 
         return response()->json([
-            'message' => 'post updated successfully',
+            'message' => 'Post updated successfully',
             'data' => $post->toArray()
         ], 204);
     }
@@ -54,7 +55,7 @@ class PostController extends Controller
         $post->delete();
 
         return response()->json([
-            'message' => 'post has been delete successfully',
+            'message' => 'Post has been delete successfully',
             'data' => $post->toArray(),
         ], 204);
     }

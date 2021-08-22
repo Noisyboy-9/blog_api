@@ -2,7 +2,7 @@
 
 use App\Models\Category;
 
-it('should belong to a post', function () {
+it('should belong to a Post', function () {
     $category = addNewCategory();
     $post = addNewPost(['category_id' => $category->id]);
 

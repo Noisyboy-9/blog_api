@@ -19,7 +19,7 @@ class Category extends Model
 
     public function path(): string
     {
-        return "/api/posts?category=$this->slug";
+        return "/api/posts?Category=$this->slug";
     }
 
     public function posts(): HasMany
