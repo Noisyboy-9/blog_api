@@ -10,9 +10,7 @@ use function Pest\Laravel\withExceptionHandling;
 use function Pest\Laravel\withoutExceptionHandling;
 
 
-beforeEach(function () {
-    withoutExceptionHandling();
-});
+beforeEach(fn() => withoutExceptionHandling());
 
 it('can create a post with title, desc, body, slug', function () {
     $category = addNewCategory();

@@ -7,9 +7,7 @@ use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\get;
 use function Pest\Laravel\withoutExceptionHandling;
 
-beforeEach(function () {
-    withoutExceptionHandling();
-});
+beforeEach(fn() => withoutExceptionHandling());
 
 test('every post should have a category', function () {
     $category = addNewCategory();

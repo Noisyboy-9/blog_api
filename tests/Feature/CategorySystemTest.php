@@ -6,9 +6,7 @@ use function Pest\Laravel\post;
 use function Pest\Laravel\withExceptionHandling;
 use function Pest\Laravel\withoutExceptionHandling;
 
-beforeEach(function () {
-    withoutExceptionHandling();
-});
+beforeEach(fn() => withoutExceptionHandling());
 
 it('should create a category using name and slug', function () {
     $category = scaffoldNewCategory();

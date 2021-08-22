@@ -1,6 +1,9 @@
 <?php
 
 use function Pest\Laravel\get;
+use function Pest\Laravel\withoutExceptionHandling;
+
+beforeEach(fn() => withoutExceptionHandling());
 
 it('should retrieve posts by searching for slug', function () {
     $post = addNewPost();
