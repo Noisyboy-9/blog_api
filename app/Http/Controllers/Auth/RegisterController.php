@@ -13,7 +13,7 @@ class RegisterController extends Controller
     {
         $attributes = $registerRequest->validated();
         $attributes['api_token'] = Str::random(60);
-
+        
         $user = User::create($attributes);
 
         return response()->json([

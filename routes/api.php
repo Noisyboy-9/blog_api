@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Post\PostController;
@@ -11,5 +12,5 @@ Route::resource('posts', PostController::class)->except('create', 'edit');
 Route::post('categories', [CategoryController::class, 'store']);
 
 // authentication
-//      register
 Route::post('/register', [RegisterController::class, 'store']);
+Route::post('/login', [LoginController::class, 'store']);
