@@ -35,6 +35,7 @@ test('every post should have a category', function () {
 });
 
 it('should be able to retrieve all posts related to category using query string', function () {
+    signIn();
     $category = addNewCategory();
     $category->posts()->create(scaffoldNewPost());
     $category->posts()->create(scaffoldNewPost());
@@ -50,6 +51,7 @@ it('should be able to retrieve all posts related to category using query string'
 });
 
 it('should not return a post not related to the category in the query string', function () {
+    signIn();
     $category = addNewCategory();
     $category->posts()->create(scaffoldNewPost());
     $category->posts()->create(scaffoldNewPost());

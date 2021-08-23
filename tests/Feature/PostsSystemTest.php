@@ -13,6 +13,7 @@ use function Pest\Laravel\withoutExceptionHandling;
 beforeEach(fn() => withoutExceptionHandling());
 
 it('can create a post with title, desc, body, slug', function () {
+    signIn();
     $category = addNewCategory();
     $post = scaffoldNewPost(['category_id' => $category->id]);
 
@@ -31,6 +32,7 @@ it('can create a post with title, desc, body, slug', function () {
 });
 
 it('should not create a post with invalid data', function () {
+    signIn();
     withExceptionHandling();
     $post = [
         'title' => null,
@@ -45,6 +47,7 @@ it('should not create a post with invalid data', function () {
 });
 
 test('every post should have a description', function () {
+    signIn();
     withExceptionHandling();
     $post = [
         'title' => 'this is the post title',
@@ -59,6 +62,7 @@ test('every post should have a description', function () {
 });
 
 test('every post should have a slug', function () {
+    signIn();
     withExceptionHandling();
 
     $post = [
@@ -75,6 +79,7 @@ test('every post should have a slug', function () {
 });
 
 test('slugs should be unique', function () {
+    signIn();
     withExceptionHandling();
 
     $post1 = addNewPost(['slug' => 'the-same-slug']);
@@ -95,6 +100,7 @@ test('slugs should be unique', function () {
 });
 
 it('should fetch all posts', function () {
+    signIn();
     addNewPost();
     addNewPost();
     addNewPost();
@@ -106,6 +112,7 @@ it('should fetch all posts', function () {
 });
 
 it("should fetch a post by its slug", function () {
+    signIn();
     $post = addNewPost();
 
     expect(get('/api/posts/' . $post->slug)->content())
@@ -120,6 +127,7 @@ it("should fetch a post by its slug", function () {
 });
 
 test('a post can be update', function () {
+    signIn();
     $post = addNewPost();
     assertDatabaseHas('posts', [
         'title' => $post->title,
@@ -145,6 +153,7 @@ test('a post can be update', function () {
 });
 
 it('should be able to update one or more of its fields', function () {
+    signIn();
     $post = addNewPost();
     assertDatabaseHas('posts', [
         'title' => $post->title,
@@ -170,6 +179,7 @@ it('should be able to update one or more of its fields', function () {
 });
 
 it('should be able to update its slug', function () {
+    signIn();
     $post = addNewPost();
 
     assertDatabaseHas('posts', [
@@ -196,6 +206,7 @@ it('should be able to update its slug', function () {
 });
 
 it('should be able to delete a post by its slug', function () {
+    signIn();
     $post = addNewPost();
     assertDatabaseHas('posts', [
         'title' => $post->title,

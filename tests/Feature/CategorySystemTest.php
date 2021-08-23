@@ -9,6 +9,7 @@ use function Pest\Laravel\withoutExceptionHandling;
 beforeEach(fn() => withoutExceptionHandling());
 
 it('should create a category using name and slug', function () {
+    signIn();
     $category = scaffoldNewCategory();
 
     expect(post("/api/categories", $category)->content())
@@ -22,6 +23,7 @@ it('should create a category using name and slug', function () {
 });
 
 test('a category should have a slug-like string', function () {
+    signIn();
     withExceptionHandling();
 
     $category = scaffoldNewCategory(['slug' => 'bad slug']);
@@ -34,6 +36,7 @@ test('a category should have a slug-like string', function () {
 });
 
 test('a category should have a slug', function () {
+    signIn();
     withExceptionHandling();
     $category = scaffoldNewCategory(['slug' => '']);
 
@@ -42,6 +45,7 @@ test('a category should have a slug', function () {
 });
 
 it('should use a unique a slug for each category', function () {
+    signIn();
     withExceptionHandling();
 
     $category = addNewCategory()->toArray();

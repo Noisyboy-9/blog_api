@@ -2,6 +2,9 @@
 
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -17,6 +20,13 @@ expect()->extend('toBeInvalid', function () {
 });
 
 //helpers
+//authentication
+function signIn(User $user = null): Model|Collection|User
+{
+    $user = $user ?? User::factory()->create();
+    test()->actingAs($user);
+    return $user;
+}
 
 //categories
 function addNewCategory(array $attributes = []): Category
