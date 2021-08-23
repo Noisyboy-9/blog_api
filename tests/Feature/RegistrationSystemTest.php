@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\assertDatabaseMissing;
 use function Pest\Laravel\post;
@@ -9,7 +10,12 @@ use function Pest\Laravel\withoutExceptionHandling;
 beforeEach(fn() => withoutExceptionHandling());
 
 it('should register a user by its username, email, password', function () {
-    $user = scaffoldNewUser();
+    $user = [
+        'username' => 'noisyboy-9',
+        'email' => 'sina.shariati@yahoo.com',
+        'password' => 'admin123',
+        'password_confirmation' => 'admin123'
+    ];
 
     $response = post("/api/register", $user);
 
@@ -31,7 +37,11 @@ it('should register a user by its username, email, password', function () {
 it('should have a username and email for registration', function () {
     withExceptionHandling();
 
-    $user = scaffoldNewUser(['username' => '']);
+    $user = [
+        'email' => 'sina.shariati@yahoo.com',
+        'password' => 'admin123',
+        'password_confirmation' => 'admin123'
+    ];
 
     $response = post('/api/register', $user);
 
@@ -43,7 +53,12 @@ it('should have a username and email for registration', function () {
 });
 
 it('should encrypt user passwords before saving to DB', function () {
-    $user = scaffoldNewUser();
+    $user = [
+        'email' => 'sina.shariati@yahoo.com',
+        'username' => 'noisyboy-9',
+        'password' => 'admin123',
+        'password_confirmation' => 'admin123'
+    ];
 
     $response = post('/api/register', $user);
     expect($response->status())->toEqual(201);
@@ -55,7 +70,11 @@ it('should encrypt user passwords before saving to DB', function () {
 it('should confirm password before registering', function () {
     withExceptionHandling();
 
-    $user = scaffoldNewUser(['password' => '']);
+    $user = [
+        'email' => 'sina.shariati@yahoo.com',
+        'username' => 'noisyboy-9',
+        'password' => 'admin123'
+    ];
 
     $response = post('/api/register', $user);
 
@@ -70,7 +89,13 @@ it('should confirm password before registering', function () {
 it('should not return password after registering', function () {
     withExceptionHandling();
 
-    $user = scaffoldNewUser();
+    $user = [
+        'email' => 'sina.shariati@yahoo.com',
+        'username' => 'noisyboy-9',
+        'password' => 'admin123',
+        'password_confirmation' => 'admin123',
+    ];
+
     $response = post('/api/register', $user);
 
     expect($response->content())
@@ -82,8 +107,14 @@ it('should not return password after registering', function () {
 it('should use unique username for registration', function () {
     withExceptionHandling();
 
-    $user1 = addNewUser();
-    $user2 = scaffoldNewUser(['username' => $user1->username]);
+    $user1 = User::factory()->create();
+
+    $user2 = [
+        'email' => 'baduser@test.com',
+        'username' => $user1->username, //not unique username
+        'password' => 'admin123',
+        'password_confirmation' => 'admin123',
+    ];
 
     $response = post('/api/register', $user2);
 
@@ -98,8 +129,13 @@ it('should use unique username for registration', function () {
 it('should use unique email for registration', function () {
     withExceptionHandling();
 
-    $user1 = addNewUser();
-    $user2 = scaffoldNewUser(['email' => $user1->email]);
+    $user1 = User::factory()->create();
+    $user2 = [
+        'email' => 'baduser@test.com',
+        'username' => $user1->username, //not unique username
+        'password' => 'admin123',
+        'password_confirmation' => 'admin123',
+    ];
 
     $response = post('/api/register', $user2);
 
