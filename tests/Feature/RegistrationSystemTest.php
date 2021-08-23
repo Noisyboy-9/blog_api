@@ -111,9 +111,3 @@ it('should use unique email for registration', function () {
     ]);
 });
 
-it('should create a random api_token after registration', function () {
-    addNewUser();
-
-    expect(DB::table('users')->first(['api_token']))
-        ->not->toBeNull();
-});
