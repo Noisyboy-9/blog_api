@@ -12,7 +12,7 @@ use function Pest\Laravel\withoutExceptionHandling;
 
 beforeEach(fn() => withoutExceptionHandling());
 
-it('can create a Post with title, desc, body, slug', function () {
+it('can create a post with title, desc, body, slug', function () {
     $category = addNewCategory();
     $post = scaffoldNewPost(['category_id' => $category->id]);
 
@@ -30,11 +30,11 @@ it('can create a Post with title, desc, body, slug', function () {
     ]);
 });
 
-it('should not create a Post with invalid data', function () {
+it('should not create a post with invalid data', function () {
     withExceptionHandling();
     $post = [
         'title' => null,
-        'body' => 'the Post body',
+        'body' => 'the post body',
         'description' => 'this is the desc'
     ];
 
@@ -44,11 +44,11 @@ it('should not create a Post with invalid data', function () {
     assertDatabaseMissing('posts', $post);
 });
 
-test('every Post should have a description', function () {
+test('every post should have a description', function () {
     withExceptionHandling();
     $post = [
-        'title' => 'this is the Post title',
-        'body' => 'this is the Post body',
+        'title' => 'this is the post title',
+        'body' => 'this is the post body',
         'description' => null
     ];
 
@@ -58,13 +58,13 @@ test('every Post should have a description', function () {
     assertDatabaseMissing('posts', $post);
 });
 
-test('every Post should have a slug', function () {
+test('every post should have a slug', function () {
     withExceptionHandling();
 
     $post = [
-        'title' => 'this is the Post title',
-        'body' => 'this is the Post body',
-        'description' => 'this is the Post description',
+        'title' => 'this is the post title',
+        'body' => 'this is the post body',
+        'description' => 'this is the post description',
         'slug' => null
     ];
 
@@ -105,7 +105,7 @@ it('should fetch all posts', function () {
         ->toHaveCount(3);
 });
 
-it("should fetch a Post by its slug", function () {
+it("should fetch a post by its slug", function () {
     $post = addNewPost();
 
     expect(get('/api/posts/' . $post->slug)->content())
@@ -119,7 +119,7 @@ it("should fetch a Post by its slug", function () {
         ->toHaveKey('slug', $post->slug);
 });
 
-test('a Post can be update', function () {
+test('a post can be update', function () {
     $post = addNewPost();
     assertDatabaseHas('posts', [
         'title' => $post->title,
@@ -155,7 +155,7 @@ it('should be able to update one or more of its fields', function () {
 
     expect(patch("/api/posts/$post->slug", [
         'slug' => $post->slug,
-        'description' => 'this is the new Post body, this is the best description I can come up with'
+        'description' => 'this is the new post body, this is the best description I can come up with'
     ])->status())->toEqual(204);
 
     assertDatabaseMissing('posts', $post->toArray());
@@ -164,7 +164,7 @@ it('should be able to update one or more of its fields', function () {
         'id' => $post->id,
         'slug' => $post->slug,
         'title' => $post->title,
-        'description' => 'this is the new Post body, this is the best description I can come up with',
+        'description' => 'this is the new post body, this is the best description I can come up with',
         'body' => $post->body
     ]);
 });
@@ -195,7 +195,7 @@ it('should be able to update its slug', function () {
     ]);
 });
 
-it('should be able to delete a Post by its slug', function () {
+it('should be able to delete a post by its slug', function () {
     $post = addNewPost();
     assertDatabaseHas('posts', [
         'title' => $post->title,

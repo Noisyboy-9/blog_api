@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\Category;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\categories\CategoryStoreRequest;
 use App\Models\Category;
 use Illuminate\Http\JsonResponse;
@@ -12,7 +11,7 @@ class CategoryController extends Controller
     public function store(CategoryStoreRequest $storeRequest): JsonResponse
     {
         $attributes = $storeRequest->validated();
-
+        
         $category = Category::create($attributes);
 
         return response()->json([

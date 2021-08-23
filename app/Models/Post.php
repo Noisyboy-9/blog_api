@@ -32,8 +32,8 @@ class Post extends Model
 
     public function scopeFilter(Builder $query, array $filters)
     {
-        $query->when($filters['Category'] ?? false, fn(Builder $query, string $category) => $query
-            ->whereHas('Category', fn(Builder $query) => $query
+        $query->when($filters['category'] ?? false, fn(Builder $query, string $category) => $query
+            ->whereHas('category', fn(Builder $query) => $query
                 ->where('slug', $category)
             )
         );
