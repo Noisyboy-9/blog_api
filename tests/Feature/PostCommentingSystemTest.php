@@ -6,6 +6,7 @@ use Illuminate\Validation\ValidationException;
 use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\assertDatabaseMissing;
 use function Pest\Laravel\deleteJson;
+use function Pest\Laravel\getJson;
 use function Pest\Laravel\patchJson;
 use function Pest\Laravel\postJson;
 use function Pest\Laravel\withoutExceptionHandling;
@@ -159,6 +160,33 @@ test('a user should own a comment to be able to update a comment', function () {
 })->throws(UnauthorizedException::class);
 
 it('should be able to get all comments related to a post', function () {
+    signIn();
+    $post = addNewPost();
 
-})->skip();
+    $comments = [
+        addNewComment(['post_id' => $post->id]),
+        addNewComment(['post_id' => $post->id]),
+        addNewComment(['post_id' => $post->id]),
+    ];
 
+
+    $response = getJson("/api/posts/{$post->slug}/comments");
+
+    expect($response->content())
+        ->json()
+        ->toHaveCount(count($comments))
+        ->and($response->status())->toEqual(200);
+});
+
+it('should be authenticated in order to see comments related to a post', function () {
+    $post = addNewPost();
+
+    $comments = [
+        addNewComment(['post_id' => $post->id]),
+        addNewComment(['post_id' => $post->id]),
+        addNewComment(['post_id' => $post->id]),
+    ];
+
+
+    getJson("/api/posts/{$post->slug}/comments");
+})->throws(AuthenticationException::class);

@@ -50,4 +50,9 @@ class PostsCommentController extends Controller
             'data' => $comment
         ]);
     }
+
+    public function index(Post $post)
+    {
+        return response()->json($post->comments);
+    }
 }
