@@ -4,6 +4,7 @@ namespace App\Http\Controllers\posts;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\posts\comments\PostCommentStoreRequest;
+use App\Http\Requests\posts\comments\PostCommentUpdateRequest;
 use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\JsonResponse;
@@ -34,5 +35,19 @@ class PostsCommentController extends Controller
             'message' => 'comment deleted successfully',
             'data' => $comment
         ], 204);
+    }
+
+    public function update(Post $post, Comment $comment, PostCommentUpdateRequest $updateRequest): JsonResponse
+    {
+        if (!auth()->user()->is($comment->owner)) {
+            throw new UnauthorizedException("The user doesn't own the comment.");
+        }
+
+        $comment->update($updateRequest->validated());
+
+        return response()->json([
+            'message' => 'Comment has been updated successfully',
+            'data' => $comment
+        ]);
     }
 }

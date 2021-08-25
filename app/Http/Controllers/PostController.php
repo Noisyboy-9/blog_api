@@ -47,10 +47,10 @@ class PostController extends Controller
         return response()->json([
             'message' => 'post updated successfully',
             'data' => $post->toArray()
-        ], 204);
+        ], 200);
     }
 
-    public function destroy(Post $post)
+    public function destroy(Post $post): JsonResponse
     {
         $post->delete();
 

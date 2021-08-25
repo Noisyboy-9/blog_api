@@ -6,6 +6,7 @@ use Illuminate\Validation\ValidationException;
 use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\assertDatabaseMissing;
 use function Pest\Laravel\deleteJson;
+use function Pest\Laravel\patchJson;
 use function Pest\Laravel\postJson;
 use function Pest\Laravel\withoutExceptionHandling;
 
@@ -102,10 +103,62 @@ it('should own the comment in order to delete it', function () {
     deleteJson("/api/posts/{$post->slug}/comments/{$comment->id}");
 })->throws(UnauthorizedException::class);
 
-it('should be able to update a comment body', function () {
+it('should be able to update a comment body', closure: function () {
+    $owner = signIn();
+    $post = addNewPost();
+    $oldComment = addNewComment([
+        'post_id' => $post->id,
+        'owner_id' => $owner->id
+    ]);
 
-})->skip();
+    assertDatabaseHas('comments', [
+        'post_id' => $post->id,
+        'owner_id' => $owner->id,
+        'body' => $oldComment->body
+    ]);
+
+    $newComment = [
+        'id' => $oldComment->id,
+        'post_id' => $post['id'],
+        'body' => 'this is the new comment body'
+    ];
+
+    $response = patchJson("/api/posts/{$post->slug}/comments/{$oldComment->id}", $newComment);
+    expect($response->content())
+        ->json()
+        ->message->toEqual("Comment has been updated successfully")
+        ->data->toBeArray()
+        ->toHaveKey('body', $newComment['body'])
+        ->toHaveKey('post_id', $newComment['post_id'])
+        ->toHaveKey('owner_id', $owner->id)
+        ->and($response->status())->toEqual(200);
+
+    assertDatabaseHas('comments', [
+        'post_id' => $post->id,
+        'owner_id' => $owner->id,
+        'body' => $newComment['body']
+    ]);
+    assertDatabaseMissing('comments', [
+        'post_id' => $post->id,
+        'owner_id' => $owner->id,
+        'body' => $oldComment->body
+    ]);
+});
+
+test('a user should own a comment to be able to update a comment', function () {
+    $user = signIn();
+    $post = addNewPost();
+    $oldComment = addNewComment(['post_id' => $post->id]); // a comment which $user doesn't own
+
+    $newComment = [
+        'id' => $oldComment->id,
+        'post_id' => $post['id'],
+        'body' => 'this is the new comment body'
+    ];
+    patchJson("/api/posts/{$post->slug}/comments/{$oldComment->id}", $newComment);
+})->throws(UnauthorizedException::class);
 
 it('should be able to get all comments related to a post', function () {
 
 })->skip();
+

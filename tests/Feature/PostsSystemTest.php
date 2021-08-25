@@ -139,7 +139,7 @@ test('a post can be update', function () {
     expect(patch("/api/posts/$post->slug", [
         'slug' => $post->slug,
         'title' => 'the new title'
-    ])->status())->toEqual(204);
+    ])->status())->toEqual(200);
 
     assertDatabaseMissing('posts', $post->toArray());
 
@@ -165,7 +165,7 @@ it('should be able to update one or more of its fields', function () {
     expect(patch("/api/posts/$post->slug", [
         'slug' => $post->slug,
         'description' => 'this is the new post body, this is the best description I can come up with'
-    ])->status())->toEqual(204);
+    ])->status())->toEqual(200);
 
     assertDatabaseMissing('posts', $post->toArray());
 
@@ -192,7 +192,7 @@ it('should be able to update its slug', function () {
     expect(patch("/api/posts/$post->slug", [
         'id' => $post->id,
         'slug' => 'the-new-slug',
-    ])->status())->toEqual(204);
+    ])->status())->toEqual(200);
 
     assertDatabaseMissing('posts', $post->toArray());
 

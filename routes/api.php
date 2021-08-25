@@ -4,16 +4,19 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\posts\PostsCommentController;
 
-//posts
-Route::resource('posts', PostController::class)
-    ->except('create', 'edit')
-    ->middleware('auth:sanctum');
-
 //comments
-Route::post('/posts/{post}/comments', [PostsCommentController::class, 'store'])->middleware('auth:sanctum');
-Route::delete('/posts/{post}/comments/{comment}', [PostsCommentController::class, 'delete'])->middleware('auth:sanctum');
+Route::middleware('auth:sanctum')->group(function () {
+//    posts
+    Route::resource('posts', PostController::class)->except('create', 'edit');
+
+//    comments
+    Route::post('/posts/{post}/comments', [PostsCommentController::class, 'store']);
+    Route::delete('/posts/{post}/comments/{comment}', [PostsCommentController::class, 'delete']);
+    Route::patch('/posts/{post}/comments/{comment}', [PostsCommentController::class, 'update']);
+
+//    categories
+    Route::post('categories', [CategoryController::class, 'store']);
+    Route::delete('categories/{category}', [CategoryController::class, 'delete']);
+});
 
 //categories
-Route::post('categories', [CategoryController::class, 'store'])->middleware('auth:sanctum');
-Route::delete('categories/{category}', [CategoryController::class, 'delete'])->middleware('auth:sanctum');
-
