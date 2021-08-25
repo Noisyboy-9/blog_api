@@ -17,6 +17,11 @@ class Category extends Model
 
     protected $fillable = ['name', 'slug'];
 
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
     public function path(): string
     {
         return "/api/posts?category=$this->slug";
