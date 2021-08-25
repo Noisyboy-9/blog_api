@@ -1,8 +1,11 @@
 <?php
 
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Validation\UnauthorizedException;
 use Illuminate\Validation\ValidationException;
 use function Pest\Laravel\assertDatabaseHas;
+use function Pest\Laravel\assertDatabaseMissing;
+use function Pest\Laravel\deleteJson;
 use function Pest\Laravel\postJson;
 use function Pest\Laravel\withoutExceptionHandling;
 
@@ -62,18 +65,47 @@ it('should store a owner with itself', function () {
 });
 
 it('should be able to delete a comment', function () {
+    $owner = signIn();
+    $post = addNewPost();
+    $comment = addNewComment([
+        'post_id' => $post->id,
+        'owner_id' => $owner->id
+    ]);
 
-})->skip();
+    assertDatabaseHas('comments', [
+        'post_id' => $post->id,
+        'body' => $comment['body'],
+        'owner_id' => $owner->id
+    ]);
+
+    expect(deleteJson("/api/posts/{$post->slug}/comments/{$comment->id}"))
+        ->status()->toEqual(204);
+
+    assertDatabaseMissing('comments', [
+        'post_id' => $post->id,
+        'body' => $comment['body'],
+        'owner_id' => $owner->id
+    ]);
+});
 
 
 it('should be logged in to delete a comment', function () {
-
-})->skip();
+    $post = addNewPost();
+    $comment = addNewComment(['post_id' => $post->id]);
+    deleteJson("/api/posts/{$post->slug}/comments/{$comment->id}");
+})->throws(AuthenticationException::class);
 
 it('should own the comment in order to delete it', function () {
+    $user = signIn();
+    $post = addNewPost();
+    $comment = addNewComment(['post_id' => $post->id]); // a comment that $user does not own.
+    deleteJson("/api/posts/{$post->slug}/comments/{$comment->id}");
+})->throws(UnauthorizedException::class);
+
+it('should be able to update a comment body', function () {
 
 })->skip();
 
-it('should be able to update a comment body', function () {
+it('should be able to get all comments related to a post', function () {
 
 })->skip();
