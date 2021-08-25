@@ -7,7 +7,7 @@ use App\Http\Controllers\posts\PostsCommentController;
 //comments
 Route::middleware('auth:sanctum')->group(function () {
 //    posts
-    Route::resource('posts', PostController::class)->except('create', 'edit');
+    Route::apiResource('posts', PostController::class);
 
 //    comments
     Route::get('/posts/{post}/comments', [PostsCommentController::class, 'index']);
