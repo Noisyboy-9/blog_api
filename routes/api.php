@@ -10,10 +10,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('posts', PostController::class);
 
 //    comments
-    Route::get('/posts/{post}/comments', [PostsCommentController::class, 'index']);
-    Route::post('/posts/{post}/comments', [PostsCommentController::class, 'store']);
-    Route::delete('/posts/{post}/comments/{comment}', [PostsCommentController::class, 'delete']);
-    Route::patch('/posts/{post}/comments/{comment}', [PostsCommentController::class, 'update']);
+    Route::prefix('/posts/{post}')->group(function () {
+        Route::apiResource("comments", PostsCommentController::class);
+    });
 
 //    categories
     Route::post('categories', [CategoryController::class, 'store']);

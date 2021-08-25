@@ -25,7 +25,7 @@ class PostsCommentController extends Controller
         ], 201);
     }
 
-    public function delete(Post $post, Comment $comment): JsonResponse
+    public function destroy(Post $post, Comment $comment): JsonResponse
     {
         if (!auth()->user()->is($comment->owner)) {
             throw new UnauthorizedException("User doesn't own the comment");
@@ -51,7 +51,7 @@ class PostsCommentController extends Controller
         ]);
     }
 
-    public function index(Post $post)
+    public function index(Post $post): JsonResponse
     {
         return response()->json($post->comments);
     }

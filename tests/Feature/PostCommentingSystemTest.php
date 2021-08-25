@@ -90,7 +90,6 @@ it('should be able to delete a comment', function () {
     ]);
 });
 
-
 it('should be logged in to delete a comment', function () {
     $post = addNewPost();
     $comment = addNewComment(['post_id' => $post->id]);
