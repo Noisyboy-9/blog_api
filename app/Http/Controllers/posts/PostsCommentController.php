@@ -12,6 +12,7 @@ class PostsCommentController extends Controller
     public function store(Post $post, PostCommentStoreRequest $storeRequest): JsonResponse
     {
         $attributes = $storeRequest->validated();
+        $attributes['owner_id'] = auth()->id();
 
         $comment = $post->comments()->create($attributes);
 

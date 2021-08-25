@@ -10,7 +10,8 @@ Route::resource('posts', PostController::class)
     ->middleware('auth:sanctum');
 
 //comments
-Route::post('/posts/{post}/comments', [PostsCommentController::class, 'store']);
+Route::post('/posts/{post}/comments', [PostsCommentController::class, 'store'])
+    ->middleware('auth:sanctum');
 
 //categories
 Route::post('categories', [CategoryController::class, 'store'])->middleware('auth:sanctum');
