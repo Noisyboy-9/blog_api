@@ -18,7 +18,7 @@ class Post extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'body', 'description', 'slug', 'category_id'];
+    protected $fillable = ['title', 'body', 'description', 'slug', 'owner_id', 'category_id'];
 
     public function getRouteKeyName(): string
     {
@@ -28,6 +28,11 @@ class Post extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function owner(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'owner_id', 'id');
     }
 
     public function scopeFilter(Builder $query, array $filters)

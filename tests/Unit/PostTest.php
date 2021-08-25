@@ -12,3 +12,12 @@ it('should belong to a post', function () {
         ->and($post->category->is($category))
         ->toBeTrue();
 });
+
+it('should belong to a owner', function () {
+    $owner = signIn();
+    $post = addNewPost(['owner_id' => $owner->id]);
+
+    expect($post->owner)
+        ->not->toBeNull()
+        ->and($post->owner->is($owner))->toBeTrue();
+});

@@ -22,11 +22,12 @@ class PostController extends Controller
     {
         $attributes = $storeRequest->validated();
 
-        Post::create($attributes);
+        $post = auth()->user()->posts()->create($attributes);
+
 
         return response()->json([
             'message' => 'Post created successfully!',
-            'data' => $attributes
+            'data' => $post
         ], 201);
     }
 

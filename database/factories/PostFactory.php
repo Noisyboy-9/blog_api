@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PostFactory extends Factory
@@ -28,6 +29,7 @@ class PostFactory extends Factory
             'description' => $this->faker->sentence(50),
             'slug' => $this->faker->unique()->slug(),
             'category_id' => Category::factory(),
+            'owner_id' => User::factory()
         ];
     }
 }
