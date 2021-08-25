@@ -45,3 +45,5 @@ test('a post should have a owner', function () {
     $postModel = Post::first();
     expect($postModel->owner->is($owner))->toBeTrue();
 });
+
+

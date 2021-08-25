@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Category;
+use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
@@ -50,6 +51,19 @@ function addNewPost(array $attributes = []): Post
 function scaffoldNewPost(array $attributes = []): array
 {
     return Post::factory()
+        ->make($attributes)
+        ->toArray();
+}
+
+// comments
+function addNewComment(array $attributes = []): Comment
+{
+    return Comment::factory()->create($attributes);
+}
+
+function scaffoldNewComment(array $attributes = []): array
+{
+    return Comment::factory()
         ->make($attributes)
         ->toArray();
 }
