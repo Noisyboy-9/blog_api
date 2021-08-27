@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\blog_api\posts\PostStatusEnum;
 use App\Http\Requests\posts\PostStoreRequest;
 use App\Http\Requests\posts\PostUpdateRequest;
 use App\Models\Post;
@@ -14,16 +15,18 @@ class PostController extends Controller
     public function index(): JsonResponse
     {
         return response()->json([
-            'data' => Post::latest()->filter(request()->only(...$this->filters))->get()
+            'data' => Post::latest()
+                ->filter(request()->only(...$this->filters))
+                ->where('status', PostStatusEnum::PUBLISHED)
+                ->get()
         ]);
     }
 
     public function store(PostStoreRequest $storeRequest): JsonResponse
     {
         $attributes = $storeRequest->validated();
-
+        $attributes['status'] ??= PostStatusEnum::DRAFT;
         $post = auth()->user()->posts()->create($attributes);
-
 
         return response()->json([
             'message' => 'Post created successfully!',

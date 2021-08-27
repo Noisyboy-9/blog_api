@@ -1,5 +1,6 @@
 <?php
 
+use App\blog_api\posts\PostStatusEnum;
 use function Pest\Laravel\get;
 use function Pest\Laravel\withoutExceptionHandling;
 
@@ -7,7 +8,7 @@ beforeEach(fn() => withoutExceptionHandling());
 
 it('should retrieve posts by searching for slug', function () {
     signIn();
-    $post = addNewPost();
+    $post = addNewPost(['status' => PostStatusEnum::PUBLISHED]);
 
     $response = get("/api/posts?search=$post->slug");
 
@@ -21,7 +22,7 @@ it('should retrieve posts by searching for slug', function () {
 
 it('should retrieve posts by searching for title', function () {
     signIn();
-    $post = addNewPost();
+    $post = addNewPost(['status' => PostStatusEnum::PUBLISHED]);
 
     $response = get("/api/posts?search=$post->title");
 
@@ -35,7 +36,7 @@ it('should retrieve posts by searching for title', function () {
 
 it('should retrieve posts by searching for body', function () {
     signIn();
-    $post = addNewPost();
+    $post = addNewPost(['status' => PostStatusEnum::PUBLISHED]);
 
     $response = get("/api/posts?search=$post->body");
 
@@ -49,7 +50,7 @@ it('should retrieve posts by searching for body', function () {
 
 it('should retrieve posts by searching for description', function () {
     signIn();
-    $post = addNewPost();
+    $post = addNewPost(['status' => PostStatusEnum::PUBLISHED]);
 
     $response = get("/api/posts?search=$post->description");
 

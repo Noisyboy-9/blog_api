@@ -1,6 +1,7 @@
 <?php
 
 
+use App\blog_api\posts\PostStatusEnum;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Collection;
 use function Pest\Laravel\assertDatabaseHas;
@@ -37,8 +38,8 @@ test('every post should have a category', function () {
 it('should be able to retrieve all posts related to category using query string', function () {
     signIn();
     $category = addNewCategory();
-    $category->posts()->create(scaffoldNewPost());
-    $category->posts()->create(scaffoldNewPost());
+    $category->posts()->create(scaffoldNewPost(['status' => PostStatusEnum::PUBLISHED]));
+    $category->posts()->create(scaffoldNewPost(['status' => PostStatusEnum::PUBLISHED]));
 
     $response = get($category->path());
 
@@ -53,9 +54,9 @@ it('should be able to retrieve all posts related to category using query string'
 it('should not return a post not related to the category in the query string', function () {
     signIn();
     $category = addNewCategory();
-    $category->posts()->create(scaffoldNewPost());
-    $category->posts()->create(scaffoldNewPost());
-    addNewPost(); // post with category id not equal to $category->id
+    $category->posts()->create(scaffoldNewPost(['status' => PostStatusEnum::PUBLISHED]));
+    $category->posts()->create(scaffoldNewPost(['status' => PostStatusEnum::PUBLISHED]));
+    addNewPost(['status' => PostStatusEnum::PUBLISHED]); // published post with category id not equal to $category->id
 
     $response = get($category->path());
 

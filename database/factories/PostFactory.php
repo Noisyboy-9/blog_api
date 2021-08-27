@@ -2,10 +2,12 @@
 
 namespace Database\Factories;
 
+use App\blog_api\posts\PostStatusEnum;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use JetBrains\PhpStorm\ArrayShape;
 
 class PostFactory extends Factory
 {
@@ -21,6 +23,7 @@ class PostFactory extends Factory
      *
      * @return array
      */
+    #[ArrayShape(['title' => "string", 'body' => "string", 'description' => "string", 'slug' => "mixed", 'category_id' => "\Illuminate\Database\Eloquent\Factories\Factory", 'owner_id' => "\Illuminate\Database\Eloquent\Factories\Factory", 'status' => "int"])]
     public function definition(): array
     {
         return [
@@ -29,7 +32,8 @@ class PostFactory extends Factory
             'description' => $this->faker->sentence(50),
             'slug' => $this->faker->unique()->slug(),
             'category_id' => Category::factory(),
-            'owner_id' => User::factory()
+            'owner_id' => User::factory(),
+            'status' => PostStatusEnum::DRAFT
         ];
     }
 }

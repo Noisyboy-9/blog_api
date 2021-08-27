@@ -3,9 +3,11 @@
 namespace App\Http\Requests\posts;
 
 use App\Rules\Slug;
+use App\Rules\Status;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use JetBrains\PhpStorm\ArrayShape;
 
 class PostStoreRequest extends FormRequest
 {
@@ -24,6 +26,7 @@ class PostStoreRequest extends FormRequest
      *
      * @return array
      */
+    #[ArrayShape(['title' => "string[]", 'body' => "string[]", 'description' => "string[]", 'slug' => "array", 'category_id' => "array"])]
     public function rules(): array
     {
         return [
@@ -31,7 +34,8 @@ class PostStoreRequest extends FormRequest
             'body' => ['required', 'min: 30'],
             'description' => ['required', 'min: 10'],
             'slug' => ['required', new slug(), 'unique:posts'],
-            'category_id' => ['required', Rule::exists('categories', 'id')]
+            'category_id' => ['required', Rule::exists('categories', 'id')],
+            'status' => [new Status()]
         ];
     }
 }

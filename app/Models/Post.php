@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\blog_api\posts\PostStatusEnum;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -9,17 +10,20 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * @property string id
+ * @property int id
+ * @property int owner_id
+ * @property int category_id
  * @property string slug
  * @property string body
  * @property string title
  * @property string description
+ * @property int|string status
  */
 class Post extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'body', 'description', 'slug', 'owner_id', 'category_id'];
+    protected $fillable = ['title', 'body', 'description', 'slug', 'owner_id', 'category_id', 'status'];
 
     public function getRouteKeyName(): string
     {
@@ -57,5 +61,20 @@ class Post extends Model
                 ->orWhere('description', 'like', '%' . $search . '%')
             )
         );
+    }
+
+    public function published(): bool
+    {
+        return (int)$this->status === PostStatusEnum::PUBLISHED;
+    }
+
+    public function drafted(): bool
+    {
+        return (int)$this->status === PostStatusEnum::DRAFT;
+    }
+
+    public function publish()
+    {
+        $this->update(['status' => PostStatusEnum::PUBLISHED]);
     }
 }

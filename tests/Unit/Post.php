@@ -1,9 +1,10 @@
 <?php
 
+use App\blog_api\posts\PostStatusEnum;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Collection;
 
-it('should belong to a post', function () {
+it('should belong to a category', function () {
     $category = addNewCategory();
     $post = addNewPost(['category_id' => $category->id]);
 
@@ -36,4 +37,26 @@ it('may have multiple comments', function () {
         ->and($post->comments->contains($comment1))->toBeTrue()
         ->and($post->comments->contains($comment2))->toBeTrue()
         ->and($post->comments->contains($comment3))->toBeTrue();
+});
+
+it('should know if it is in published mode', function () {
+    $post = addNewPost(['status' => PostStatusEnum::PUBLISHED]);
+    expect($post->published())->toBeTrue();
+});
+
+it('should know if it is in draft mode', function () {
+    $post = addNewPost(['status' => PostStatusEnum::DRAFT]);
+    expect($post->drafted())->toBeTrue();
+});
+
+it('can publish itself', function () {
+    $post = addNewPost();
+
+    expect($post->published())->toBeFalse();
+    expect($post->drafted())->toBeTrue();
+
+    $post->publish();
+
+    expect($post->published())->toBeTrue();
+    expect($post->drafted())->toBeFalse();
 });

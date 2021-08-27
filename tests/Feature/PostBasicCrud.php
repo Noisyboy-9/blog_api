@@ -1,5 +1,6 @@
 <?php
 
+use App\blog_api\posts\PostStatusEnum;
 use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\assertDatabaseMissing;
 use function Pest\Laravel\delete;
@@ -101,14 +102,16 @@ test('slugs should be unique', function () {
 
 it('should fetch all posts', function () {
     signIn();
-    addNewPost();
-    addNewPost();
-    addNewPost();
+    $posts = [
+        addNewPost(['status' => PostStatusEnum::PUBLISHED]),
+        addNewPost(['status' => PostStatusEnum::PUBLISHED]),
+        addNewPost(['status' => PostStatusEnum::PUBLISHED]),
+    ];
 
     expect(get('/api/posts')->content())
         ->json()
         ->data
-        ->toHaveCount(3);
+        ->toHaveCount(count($posts));
 });
 
 it("should fetch a post by its slug", function () {
