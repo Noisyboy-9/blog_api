@@ -8,6 +8,11 @@ use Illuminate\Http\JsonResponse;
 
 class CategoryController extends Controller
 {
+    public function index(): JsonResponse
+    {
+        return response()->json(Category::all());
+    }
+
     public function store(CategoryStoreRequest $storeRequest): JsonResponse
     {
         $attributes = $storeRequest->validated();
@@ -20,7 +25,12 @@ class CategoryController extends Controller
         ], 201);
     }
 
-    public function delete(Category $category)
+    public function show(Category $category): JsonResponse
+    {
+        return response()->json($category->posts);
+    }
+
+    public function delete(Category $category): JsonResponse
     {
         $category->delete();
 
