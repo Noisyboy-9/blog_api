@@ -30,7 +30,7 @@ class CategoryController extends Controller
         return response()->json($category->posts);
     }
 
-    public function delete(Category $category): JsonResponse
+    public function destroy(Category $category): JsonResponse
     {
         $category->delete();
 
