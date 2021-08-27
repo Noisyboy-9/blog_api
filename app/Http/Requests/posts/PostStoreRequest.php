@@ -4,6 +4,7 @@ namespace App\Http\Requests\posts;
 
 use App\Rules\Slug;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class PostStoreRequest extends FormRequest
@@ -15,7 +16,7 @@ class PostStoreRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return Auth::check();
     }
 
     /**

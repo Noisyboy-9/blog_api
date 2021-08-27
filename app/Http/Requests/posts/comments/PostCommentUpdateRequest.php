@@ -3,6 +3,7 @@
 namespace App\Http\Requests\posts\comments;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use JetBrains\PhpStorm\ArrayShape;
 
@@ -15,7 +16,7 @@ class PostCommentUpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return Auth::check();
     }
 
     /**

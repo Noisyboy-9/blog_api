@@ -3,6 +3,7 @@
 namespace App\Http\Requests\posts\comments;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class PostCommentStoreRequest extends FormRequest
@@ -14,8 +15,7 @@ class PostCommentStoreRequest extends FormRequest
      */
     public function authorize(): bool
     {
-//        TODO: implement authorize method for all of the form request classes.
-        return true;
+        return Auth::check();
     }
 
     /**
