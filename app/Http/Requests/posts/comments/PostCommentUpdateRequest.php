@@ -1,11 +1,9 @@
 <?php
-
 namespace App\Http\Requests\posts\comments;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
-use JetBrains\PhpStorm\ArrayShape;
 
 class PostCommentUpdateRequest extends FormRequest
 {
@@ -24,7 +22,6 @@ class PostCommentUpdateRequest extends FormRequest
      *
      * @return array
      */
-    #[ArrayShape(['post_id' => "array", 'body' => "string[]"])]
     public function rules(): array
     {
         return [
