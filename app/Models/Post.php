@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use App\blog_api\posts\PostStatusEnum;
@@ -9,16 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-/**
- * @property int id
- * @property int owner_id
- * @property int category_id
- * @property string slug
- * @property string body
- * @property string title
- * @property string description
- * @property int|string status
- */
 class Post extends Model
 {
     use HasFactory;
@@ -47,14 +36,21 @@ class Post extends Model
 
     public function scopeFilter(Builder $query, array $filters)
     {
-        $query->when($filters['category'] ?? false, fn(Builder $query, string $category) => $query
-            ->whereHas('category', fn(Builder $query) => $query
+        $query->when(
+            $filters['category'] ?? false,
+            fn (Builder $query, string $category) => $query
+            ->whereHas(
+                'category',
+                fn (Builder $query) => $query
                 ->where('slug', $category)
             )
         );
 
-        $query->when($filters['search'] ?? false, fn(Builder $query, string $search) => $query
-            ->where(fn() => $query
+        $query->when(
+            $filters['search'] ?? false,
+            fn (Builder $query, string $search) => $query
+            ->where(
+                fn () => $query
                 ->where('title', 'like', '%' . $search . '%')
                 ->orWhere('body', 'like', '%' . $search . '%')
                 ->orWhere('slug', 'like', '%' . $search . '%')
