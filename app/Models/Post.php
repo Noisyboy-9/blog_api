@@ -1,7 +1,7 @@
 <?php
 namespace App\Models;
 
-use App\blog_api\posts\PostStatusEnum;
+use App\blog_api\posts\traits\HasStatusTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Post extends Model
 {
-    use HasFactory;
+    use HasFactory, HasStatusTrait;
 
     protected $fillable = ['title', 'body', 'description', 'slug', 'owner_id', 'category_id', 'status'];
 
@@ -57,20 +57,5 @@ class Post extends Model
                 ->orWhere('description', 'like', '%' . $search . '%')
             )
         );
-    }
-
-    public function published(): bool
-    {
-        return (int)$this->status === PostStatusEnum::PUBLISHED;
-    }
-
-    public function drafted(): bool
-    {
-        return (int)$this->status === PostStatusEnum::DRAFT;
-    }
-
-    public function publish()
-    {
-        $this->update(['status' => PostStatusEnum::PUBLISHED]);
     }
 }
