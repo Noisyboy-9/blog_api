@@ -9,7 +9,6 @@ use Illuminate\Http\JsonResponse;
 
 class PostController extends Controller
 {
-
     public function store(PostStoreRequest $storeRequest): JsonResponse
     {
         $attributes = $storeRequest->validated();
@@ -24,6 +23,9 @@ class PostController extends Controller
 
     public function show(Post $post): JsonResponse
     {
+        $post->incrementViewIfNotExist(auth()->user());
+        $post->view_count = $post->viewsCount();
+
         return response()->json([
             'data' => $post->toJson()
         ]);
