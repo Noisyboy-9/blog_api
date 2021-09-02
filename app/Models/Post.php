@@ -26,7 +26,7 @@ class Post extends Model
         return 'slug';
     }
 
-    public function incrementViewIfNotExist(User $viewer)
+    public function addViewIfNotExist(User $viewer)
     {
         if (!$this->viewerExist($viewer)) {
             return $this->views()->create([

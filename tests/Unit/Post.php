@@ -65,7 +65,7 @@ it("can add a view if the viewer_id doesn't exist", function () {
     $viewer = signIn();
     $post = addNewPost();
 
-    $post->incrementViewIfNotExist($viewer);
+    $post->addViewIfNotExist($viewer);
 
     expect($post->viewsCount())->toEqual(1);
 });
@@ -73,7 +73,7 @@ it('may have many views', function () {
     $viewer = signIn();
     $post = addNewPost();
 
-    $post->incrementViewIfNotExist($viewer);
+    $post->addViewIfNotExist($viewer);
 
     expect($post->views)
     ->not()->toBeNull()
@@ -85,7 +85,7 @@ it('can count its own view count', function () {
     $viewer = signIn();
     $post = addNewPost();
 
-    $post->incrementViewIfNotExist($viewer);
+    $post->addViewIfNotExist($viewer);
 
     expect($post->viewsCount())->toEqual(1);
 });
@@ -94,7 +94,7 @@ it('can know if a post has been viewed by a viewer in the past or not', function
     $viewer = signIn();
     $post = addNewPost();
 
-    $post->incrementViewIfNotExist($viewer); 
+    $post->addViewIfNotExist($viewer);
 
     expect($post->viewerExist($viewer))->toBeTrue();
 });
