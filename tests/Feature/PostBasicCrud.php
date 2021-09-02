@@ -10,17 +10,15 @@ use function Pest\Laravel\post;
 use function Pest\Laravel\withExceptionHandling;
 use function Pest\Laravel\withoutExceptionHandling;
 
-
-beforeEach(fn() => withoutExceptionHandling());
-
+beforeEach(fn () => withoutExceptionHandling());
 it('can create a post with title, desc, body, slug', function () {
     signIn();
     $category = addNewCategory();
     $post = scaffoldNewPost(['category_id' => $category->id]);
 
-    expect(post("/api/posts", $post)->content())
+    expect(post('/api/posts', $post)->content())
         ->json()
-        ->message->toEqual("Post created successfully!")
+        ->message->toEqual('Post created successfully!')
         ->data->toBeArray();
 
     assertDatabaseHas('posts', [
@@ -41,7 +39,7 @@ it('should not create a post with invalid data', function () {
         'description' => 'this is the desc'
     ];
 
-    expect(post("/api/posts", $post)->status())
+    expect(post('/api/posts', $post)->status())
         ->toBeInvalid();
 
     assertDatabaseMissing('posts', $post);
@@ -56,7 +54,7 @@ test('every post should have a description', function () {
         'description' => null
     ];
 
-    expect(post("/api/posts", $post)->status())
+    expect(post('/api/posts', $post)->status())
         ->toBeInvalid();
 
     assertDatabaseMissing('posts', $post);
@@ -73,7 +71,7 @@ test('every post should have a slug', function () {
         'slug' => null
     ];
 
-    expect(post("api/posts", $post)->status())
+    expect(post('api/posts', $post)->status())
         ->toBeInvalid();
 
     assertDatabaseMissing('posts', $post);
@@ -94,13 +92,13 @@ test('slugs should be unique', function () {
 
     $post2 = scaffoldNewPost(['slug' => 'the-same-slug']);
 
-    expect(post("/api/posts", $post2)->status())
+    expect(post('/api/posts', $post2)->status())
         ->toBeInvalid();
 
     assertDatabaseMissing('posts', $post2);
 });
 
-it('should fetch all posts', function () {
+it('should fetch all posts from feed', function () {
     signIn();
     $posts = [
         addNewPost(['status' => PostStatusEnum::PUBLISHED]),
@@ -108,13 +106,13 @@ it('should fetch all posts', function () {
         addNewPost(['status' => PostStatusEnum::PUBLISHED]),
     ];
 
-    expect(get('/api/posts')->content())
+    expect(get('/api/feed')->content())
         ->json()
         ->data
         ->toHaveCount(count($posts));
 });
 
-it("should fetch a post by its slug", function () {
+it('should fetch a post by its slug', function () {
     signIn();
     $post = addNewPost();
 

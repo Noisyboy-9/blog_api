@@ -9,17 +9,6 @@ use Illuminate\Http\JsonResponse;
 
 class PostController extends Controller
 {
-    private array $filters = ['category', 'search'];
-
-    public function index(): JsonResponse
-    {
-        return response()->json([
-            'data' => Post::latest()
-                ->filter(request()->only(...$this->filters))
-                ->published()
-                ->get()
-        ]);
-    }
 
     public function store(PostStoreRequest $storeRequest): JsonResponse
     {

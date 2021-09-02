@@ -1,6 +1,5 @@
 <?php
 
-
 use App\blog_api\posts\PostStatusEnum;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Collection;
@@ -8,7 +7,7 @@ use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\get;
 use function Pest\Laravel\withoutExceptionHandling;
 
-beforeEach(fn() => withoutExceptionHandling());
+beforeEach(fn () => withoutExceptionHandling());
 
 test('every post should have a category', function () {
     $category = addNewCategory();
@@ -26,7 +25,6 @@ test('every post should have a category', function () {
         ->toHaveCount(1)
         ->and($category->posts->contains($post))
         ->toBeTrue();
-
 
     expect($post->category)
         ->not->toBeNull()

@@ -84,7 +84,7 @@ test('a post can be published', function () {
 });
 
 test('user should own the post in order to publish it', function () {
-    $user = signIn();
+    signIn();
     $post = addNewPost(); // a drafted post that isn't owned by $user
 
     postJson("/api/posts/{$post->slug}/publish");
@@ -99,7 +99,7 @@ it('should not send any draft posts when fetching all posts', function () {
         addNewPost(),
     ];
 
-    expect(getJson('/api/posts')->content())
+    expect(getJson('/api/feed')->content())
         ->json()
         ->data
         ->toHaveCount(0);

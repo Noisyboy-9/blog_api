@@ -16,7 +16,6 @@ it('should have a list of posts', function () {
 
 it('should know its path', function () {
     $category = addNewCategory();
-    expect($category->path())->toEqual("/api/posts?category=$category->slug");
+    expect($category->path())->toEqual("/api/feed?category=$category->slug");
 });
-
 
