@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -50,5 +49,10 @@ class User extends Authenticatable
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class, 'owner_id');
+    }
+
+    public function owns(Comment|Post $model): bool
+    {
+        return $model->owner->is($this);
     }
 }

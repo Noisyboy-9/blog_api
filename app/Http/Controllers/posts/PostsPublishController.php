@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\posts;
 
 use App\Http\Controllers\Controller;
@@ -11,7 +10,7 @@ class PostsPublishController extends Controller
 {
     public function __invoke(Post $post): JsonResponse
     {
-        if (!$post->owner->is(auth()->user())) {
+        if (!auth()->user()->owns($post)) {
             throw new UnauthorizedException();
         }
 

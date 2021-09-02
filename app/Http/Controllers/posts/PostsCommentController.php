@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\posts;
 
 use App\Http\Controllers\Controller;
@@ -27,9 +26,10 @@ class PostsCommentController extends Controller
 
     public function destroy(Post $post, Comment $comment): JsonResponse
     {
-        if (!auth()->user()->is($comment->owner)) {
+        if (!auth()->user()->owns($comment)) {
             throw new UnauthorizedException("User doesn't own the comment");
         }
+
         $comment->delete();
         return response()->json([
             'message' => 'comment deleted successfully',
@@ -39,7 +39,7 @@ class PostsCommentController extends Controller
 
     public function update(Post $post, Comment $comment, PostCommentUpdateRequest $updateRequest): JsonResponse
     {
-        if (!auth()->user()->is($comment->owner)) {
+        if (!auth()->user()->owns($comment)) {
             throw new UnauthorizedException("The user doesn't own the comment.");
         }
 
