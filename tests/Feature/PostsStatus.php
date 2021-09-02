@@ -8,7 +8,7 @@ use function Pest\Laravel\getJson;
 use function Pest\Laravel\postJson;
 use function Pest\Laravel\withoutExceptionHandling;
 
-beforeEach(fn() => withoutExceptionHandling());
+beforeEach(fn () => withoutExceptionHandling());
 
 it('should have status for every post', function () {
     $owner = signIn();
@@ -65,8 +65,8 @@ test('a post can be published', function () {
     $owner = signIn();
     $post = addNewPost(['owner_id' => $owner->id]);
 
-    expect($post->published())->toBeFalse();
-    expect($post->drafted())->toBeTrue();
+    expect($post->isPublished())->toBeFalse();
+    expect($post->isDrafted())->toBeTrue();
 
     $response = postJson("/api/posts/{$post->slug}/publish");
 
@@ -74,13 +74,13 @@ test('a post can be published', function () {
         ->toEqual(200)
         ->and($response->content())
         ->json()
-        ->message->toEqual("Post published successfully")
+        ->message->toEqual('Post published successfully')
         ->data
         ->toBeArray()
         ->toHaveKey('status', PostStatusEnum::PUBLISHED);
 
-    expect($post->refresh()->published())->toBeTrue();
-    expect($post->refresh()->drafted())->toBeFalse();
+    expect($post->refresh()->isPublished())->toBeTrue();
+    expect($post->refresh()->isDrafted())->toBeFalse();
 });
 
 test('user should own the post in order to publish it', function () {
@@ -99,7 +99,7 @@ it('should not send any draft posts when fetching all posts', function () {
         addNewPost(),
     ];
 
-    expect(getJson("/api/posts")->content())
+    expect(getJson('/api/posts')->content())
         ->json()
         ->data
         ->toHaveCount(0);

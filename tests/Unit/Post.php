@@ -41,22 +41,22 @@ it('may have multiple comments', function () {
 
 it('should know if it is in published mode', function () {
     $post = addNewPost(['status' => PostStatusEnum::PUBLISHED]);
-    expect($post->published())->toBeTrue();
+    expect($post->isPublished())->toBeTrue();
 });
 
 it('should know if it is in draft mode', function () {
     $post = addNewPost(['status' => PostStatusEnum::DRAFT]);
-    expect($post->drafted())->toBeTrue();
+    expect($post->isDrafted())->toBeTrue();
 });
 
 it('can publish itself', function () {
     $post = addNewPost();
 
-    expect($post->published())->toBeFalse();
-    expect($post->drafted())->toBeTrue();
+    expect($post->isPublished())->toBeFalse();
+    expect($post->isDrafted())->toBeTrue();
 
     $post->publish();
 
-    expect($post->published())->toBeTrue();
-    expect($post->drafted())->toBeFalse();
+    expect($post->isPublished())->toBeTrue();
+    expect($post->isDrafted())->toBeFalse();
 });

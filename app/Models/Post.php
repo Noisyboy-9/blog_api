@@ -1,8 +1,8 @@
 <?php
 namespace App\Models;
 
+use App\blog_api\posts\traits\CanBeFilteredTrait;
 use App\blog_api\posts\traits\HasStatusTrait;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Post extends Model
 {
-    use HasFactory, HasStatusTrait;
+    use HasFactory, HasStatusTrait, CanBeFilteredTrait;
 
     protected $fillable = ['title', 'body', 'description', 'slug', 'owner_id', 'category_id', 'status'];
 
@@ -32,30 +32,5 @@ class Post extends Model
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class, 'post_id', 'id');
-    }
-
-    public function scopeFilter(Builder $query, array $filters)
-    {
-        $query->when(
-            $filters['category'] ?? false,
-            fn (Builder $query, string $category) => $query
-            ->whereHas(
-                'category',
-                fn (Builder $query) => $query
-                ->where('slug', $category)
-            )
-        );
-
-        $query->when(
-            $filters['search'] ?? false,
-            fn (Builder $query, string $search) => $query
-            ->where(
-                fn () => $query
-                ->where('title', 'like', '%' . $search . '%')
-                ->orWhere('body', 'like', '%' . $search . '%')
-                ->orWhere('slug', 'like', '%' . $search . '%')
-                ->orWhere('description', 'like', '%' . $search . '%')
-            )
-        );
     }
 }

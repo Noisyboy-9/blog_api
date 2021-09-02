@@ -16,7 +16,7 @@ class PostController extends Controller
         return response()->json([
             'data' => Post::latest()
                 ->filter(request()->only(...$this->filters))
-                ->where('status', PostStatusEnum::PUBLISHED)
+                ->published()
                 ->get()
         ]);
     }

@@ -5,12 +5,12 @@ use App\blog_api\posts\PostStatusEnum;
 
 trait HasStatusTrait
 {
-    public function published(): bool
+    public function isPublished(): bool
     {
         return (int)$this->status === PostStatusEnum::PUBLISHED;
     }
 
-    public function drafted(): bool
+    public function isDrafted(): bool
     {
         return (int)$this->status === PostStatusEnum::DRAFT;
     }
