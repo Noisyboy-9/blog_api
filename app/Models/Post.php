@@ -1,6 +1,7 @@
 <?php
 namespace App\Models;
 
+use App\blog_api\posts\traits\BelongsToCategoryTrait;
 use App\blog_api\posts\traits\CanBeFilteredTrait;
 use App\blog_api\posts\traits\HasStatusTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -10,18 +11,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Post extends Model
 {
-    use HasFactory, HasStatusTrait, CanBeFilteredTrait;
+    use HasFactory, HasStatusTrait, CanBeFilteredTrait, BelongsToCategoryTrait;
 
     protected $fillable = ['title', 'body', 'description', 'slug', 'owner_id', 'category_id', 'status'];
 
     public function getRouteKeyName(): string
     {
         return 'slug';
-    }
-
-    public function category(): BelongsTo
-    {
-        return $this->belongsTo(Category::class);
     }
 
     public function owner(): BelongsTo
