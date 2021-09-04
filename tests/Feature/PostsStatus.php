@@ -104,4 +104,3 @@ it('should not send any draft posts when fetching all posts', function () {
         ->data
         ->toHaveCount(0);
 });
-

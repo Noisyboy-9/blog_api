@@ -6,7 +6,7 @@ use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\postJson;
 use function Pest\Laravel\withoutExceptionHandling;
 
-beforeEach(fn() => withoutExceptionHandling());
+beforeEach(fn () => withoutExceptionHandling());
 
 it('should must be logged in to create a new user', function () {
     $post = scaffoldNewPost();
@@ -45,5 +45,3 @@ test('a post should have a owner', function () {
     $postModel = Post::first();
     expect($postModel->owner->is($owner))->toBeTrue();
 });
-
-

@@ -1,7 +1,9 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -54,5 +56,17 @@ class User extends Authenticatable
     public function owns(Comment|Post $model): bool
     {
         return $model->owner->is($this);
+    }
+
+    public function bookmark(Post $post): void
+    {
+        $this->bookmarks()->attach($post);
+    }
+
+    public function bookmarks(): BelongsToMany
+    {
+        return $this
+            ->belongsToMany(Post::class, 'bookmarks')
+            ->withTimestamps();
     }
 }

@@ -226,4 +226,3 @@ it('should be able to delete a post by its slug', function () {
         'description' => $post->description
     ]);
 });
-

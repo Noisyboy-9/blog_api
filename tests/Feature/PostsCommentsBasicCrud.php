@@ -11,7 +11,7 @@ use function Pest\Laravel\patchJson;
 use function Pest\Laravel\postJson;
 use function Pest\Laravel\withoutExceptionHandling;
 
-beforeEach(fn() => withoutExceptionHandling());
+beforeEach(fn () => withoutExceptionHandling());
 
 it('should be able to create a comment on a post', function () {
     signIn();

@@ -18,4 +18,3 @@ it('should know its path', function () {
     $category = addNewCategory();
     expect($category->path())->toEqual("/api/feed?category=$category->slug");
 });
-

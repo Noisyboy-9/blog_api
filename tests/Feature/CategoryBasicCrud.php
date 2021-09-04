@@ -10,7 +10,7 @@ use function Pest\Laravel\postJson;
 use function Pest\Laravel\withExceptionHandling;
 use function Pest\Laravel\withoutExceptionHandling;
 
-beforeEach(fn() => withoutExceptionHandling());
+beforeEach(fn () => withoutExceptionHandling());
 
 it('should create a category using name and slug', function () {
     signIn();

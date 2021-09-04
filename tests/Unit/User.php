@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Eloquent\Collection;
+use function Pest\Laravel\assertDatabaseHas;
 
 test('a user may have a post', function () {
     $user = signIn();
@@ -48,3 +49,27 @@ it('may have many comments', function () {
         ->and($user->comments->contains($comment3))->toBeTrue();
 });
 
+it('can bookmark a post', function () {
+    $user = signIn();
+    $post = addNewPost();
+
+    $user->bookmark($post);
+
+    assertDatabaseHas('bookmarks', [
+        'user_id' => $user->id,
+        'post_id' => $post->id
+    ]);
+});
+
+it('may have many bookmarks', function () {
+    $user = signIn();
+    $post = addNewPost();
+
+    $user->bookmark($post);
+
+    expect($user->bookmarks)
+        ->not->toBeNull()
+        ->not->toBeEmpty()
+        ->toBeInstanceOf(Collection::class)
+        ->toHaveCount(1);
+});
