@@ -15,6 +15,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/bookmark', [PostsBookmarkController::class, 'store']);
     });
     Route::apiResource('categories', CategoryController::class);
+
+    Route::get('/user/bookmarks', [PostsBookmarkController::class, 'index']);
 });
 
 Route::get('feed', FeedController::class);

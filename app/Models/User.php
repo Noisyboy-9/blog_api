@@ -60,7 +60,7 @@ class User extends Authenticatable
 
     public function bookmark(Post $post): void
     {
-        $this->bookmarks()->attach($post);
+        $this->bookmarks()->attach($post->id);
     }
 
     public function bookmarks(): BelongsToMany

@@ -7,6 +7,11 @@ use Illuminate\Http\JsonResponse;
 
 class PostsBookmarkController extends Controller
 {
+    public function index()
+    {
+        return response()->json(auth()->user()->bookmarks);
+    }
+
     public function store(Post $post): JsonResponse
     {
         auth()->user()->bookmark($post);
