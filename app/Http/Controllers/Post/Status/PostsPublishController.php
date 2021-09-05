@@ -1,5 +1,6 @@
 <?php
-namespace App\Http\Controllers\posts;
+
+namespace App\Http\Controllers\Post\Status;
 
 use App\Http\Controllers\Controller;
 use App\Models\Post;

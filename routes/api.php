@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\FeedController;
-use App\Http\Controllers\PostController;
-use App\Http\Controllers\posts\PostsCommentController;
-use App\Http\Controllers\posts\PostsPublishController;
-use App\Http\Controllers\PostsBookmarkController;
+
+use App\Http\Controllers\Category\CategoryController;
+use App\Http\Controllers\Post\Bookmark\PostsBookmarkController;
+use App\Http\Controllers\Post\Comment\PostsCommentController;
+use App\Http\Controllers\Post\Feed\PostsFeedController;
+use App\Http\Controllers\Post\PostController;
+use App\Http\Controllers\Post\Status\PostsPublishController;
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('posts', PostController::class)->except('index');
@@ -19,4 +20,4 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user/bookmarks', [PostsBookmarkController::class, 'index']);
 });
 
-Route::get('feed', FeedController::class);
+Route::get('feed', PostsFeedController::class);

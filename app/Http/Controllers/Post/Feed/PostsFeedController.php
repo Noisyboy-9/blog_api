@@ -1,10 +1,12 @@
 <?php
-namespace App\Http\Controllers;
 
+namespace App\Http\Controllers\Post\Feed;
+
+use App\Http\Controllers\Controller;
 use App\Models\Post;
 use Illuminate\Http\JsonResponse;
 
-class FeedController extends Controller
+class PostsFeedController extends Controller
 {
     private array $filters = ['category', 'search'];
 
