@@ -11,4 +11,6 @@ trait BelongsToOwnerTrait
     {
         return $this->belongsTo(User::class, 'owner_id', 'id');
     }
+
+
 }

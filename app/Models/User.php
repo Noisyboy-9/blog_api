@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
+use App\blog_api\Traits\HasManyBookmarksTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -11,7 +11,11 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens,
+        HasFactory,
+        Notifiable,
+        HasManyBookmarksTrait;
+
 
     /**
      * The attributes that are mass assignable.
@@ -56,17 +60,5 @@ class User extends Authenticatable
     public function owns(Comment|Post $model): bool
     {
         return $model->owner->is($this);
-    }
-
-    public function bookmark(Post $post): void
-    {
-        $this->bookmarks()->attach($post->id);
-    }
-
-    public function bookmarks(): BelongsToMany
-    {
-        return $this
-            ->belongsToMany(Post::class, 'bookmarks')
-            ->withTimestamps();
     }
 }
