@@ -1,6 +1,6 @@
 # Blog Api
 
-A TDD implementation of a weblog.<br>
+A TDD implementation of a weblog RESTful API.<br>
 This project is a REST api implementation of my other project [laravel](https://github.com/Noisyboy-9/laravel_blog)
 with more features.
 
