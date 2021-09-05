@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Post;
 
 use App\blog_api\posts\PostStatusEnum;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\posts\PostStoreRequest;
-use App\Http\Requests\posts\PostUpdateRequest;
+use App\Http\Requests\Post\PostStoreRequest;
+use App\Http\Requests\Post\PostUpdateRequest;
 use App\Models\Post;
 use Illuminate\Http\JsonResponse;
 

@@ -1,11 +1,13 @@
 <?php
-namespace App\Http\Requests\posts\comments;
 
+namespace App\Http\Requests\Post;
+
+use App\Rules\Slug;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
-class PostCommentUpdateRequest extends FormRequest
+class PostUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,8 +27,13 @@ class PostCommentUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'post_id' => ['required', Rule::exists('posts', 'id')],
-            'body' => ['required']
+            'title' => ['max:255', 'min: 5'],
+            'body' => ['min: 30'],
+            'description' => ['min: 10'],
+            'slug' => [
+                new slug(),
+                Rule::unique('posts')->ignore($this->post->slug, 'slug')
+            ]
         ];
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\categories;
+namespace App\Http\Requests\Category;
 
 use App\Rules\Slug;
 use Illuminate\Foundation\Http\FormRequest;
