@@ -17,14 +17,14 @@ with more features.
 
 # technical features
 
+- Using [Pest testing framework](https://pestphp.com/) to implement the api in TDD style using more than 75 feature &
+  unit test.
+- cleanup models using traits.
+- create a reusable system of traits for models to implement new eloquent relationships.
+- using custom laravel validation rules for required rules that are not present in laravel/core.
 - using form request classes to separate validation logic from controllers logic.
 - organize form request classes in App/Http/Requests folder in resource named folders for better codebase organization.
 - organize controllers in App/Http/Controllers folder in resource named folders for better codebase organization.
-- using custom laravel validation rules for required rules that are not present in laravel/core.
 - using integers to represent enum instead of storing an enum in the database.
 - using StatusManager classes to separate enum behaviour from other parts of the code.
-- cleanup models using traits.
-- create a reusable system of traits for models to implement new eloquent relationships.
 - using third-party libraries to implement authentication.
-- Using [Pest testing framework](https://pestphp.com/) to implement the api in TDD style using more than 75 feature &
-  unit test.
