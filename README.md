@@ -6,9 +6,9 @@ with more features.
 
 # features
 
-- Post CRUD : a post can be created, read, updated and deleted.
-- Post comment CRUD : a post may have many comments which can be created, read, updated and deleted by the owner.
-- Post view : There is a table for saving every post view and its view count.
+- Post CRUD: a post can be created, read, updated and deleted.
+- Post comment CRUD: a post may have many comments which can be created, read, updated and deleted by the owner.
+- Post view: There is a table for saving every post view and its view count.
 - Category CRUD: a post must have a category which it can be created, read, updated and deleted.
 - Post bookmark: a user can bookmark many posts, and can view all bookmarked posts.
 - authentication: using laravel sanctum to implement authentication in the project.
