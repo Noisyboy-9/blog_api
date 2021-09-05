@@ -1,5 +1,6 @@
 <?php
-namespace App\blog_api\posts\traits;
+
+namespace App\blog_api\Traits;
 
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

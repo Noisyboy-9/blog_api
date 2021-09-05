@@ -2,7 +2,7 @@
 
 namespace App\Rules;
 
-use App\blog_api\posts\PostStatusEnum;
+use App\blog_api\Posts\PostStatusEnum;
 use Illuminate\Contracts\Validation\Rule;
 
 class Status implements Rule

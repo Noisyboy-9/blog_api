@@ -1,5 +1,6 @@
 <?php
-namespace App\blog_api\posts\traits;
+
+namespace App\blog_api\Traits;
 
 use App\Models\User;
 use App\Models\View;
@@ -16,6 +17,13 @@ trait HasManyViewsTrait
         }
     }
 
+    public function viewerExist(User $viewer): bool
+    {
+        return $this->views()
+            ->where('viewer_id', $viewer->id)
+            ->exists();
+    }
+
     public function views(): HasMany
     {
         return $this->hasMany(View::class, 'post_id', 'id');
@@ -24,12 +32,5 @@ trait HasManyViewsTrait
     public function viewsCount(): int
     {
         return $this->views()->count();
-    }
-
-    public function viewerExist(User $viewer): bool
-    {
-        return $this->views()
-        ->where('viewer_id', $viewer->id)
-        ->exists();
     }
 }

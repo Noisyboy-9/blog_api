@@ -1,6 +1,6 @@
 <?php
 
-use App\blog_api\posts\PostStatusEnum;
+use App\blog_api\Posts\PostStatusEnum;
 use Illuminate\Validation\UnauthorizedException;
 use Illuminate\Validation\ValidationException;
 use function Pest\Laravel\assertDatabaseHas;

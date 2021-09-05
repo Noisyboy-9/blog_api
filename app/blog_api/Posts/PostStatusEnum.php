@@ -1,5 +1,6 @@
 <?php
-namespace App\blog_api\posts;
+
+namespace App\blog_api\Posts;
 
 class PostStatusEnum
 {

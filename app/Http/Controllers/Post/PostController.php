@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Post;
 
-use App\blog_api\posts\PostStatusEnum;
+use App\blog_api\Posts\PostStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Post\PostStoreRequest;
 use App\Http\Requests\Post\PostUpdateRequest;

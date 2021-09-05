@@ -1,6 +1,6 @@
 <?php
 
-use App\blog_api\posts\PostStatusEnum;
+use App\blog_api\Posts\PostStatusEnum;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -76,9 +76,9 @@ it('may have many views', function () {
     $post->addViewIfNotExist($viewer);
 
     expect($post->views)
-    ->not()->toBeNull()
-    ->toBeInstanceOf(Collection::class)
-    ->toHaveCount(1);
+        ->not()->toBeNull()
+        ->toBeInstanceOf(Collection::class)
+        ->toHaveCount(1);
 });
 
 it('can count its own view count', function () {

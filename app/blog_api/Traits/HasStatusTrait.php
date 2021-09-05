@@ -1,7 +1,8 @@
 <?php
-namespace App\blog_api\posts\traits;
 
-use App\blog_api\posts\PostStatusEnum;
+namespace App\blog_api\Traits;
+
+use App\blog_api\Posts\PostStatusEnum;
 
 trait HasStatusTrait
 {

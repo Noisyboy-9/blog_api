@@ -1,6 +1,6 @@
 <?php
 
-use App\blog_api\posts\PostStatusEnum;
+use App\blog_api\Posts\PostStatusEnum;
 use function Pest\Laravel\get;
 use function Pest\Laravel\withoutExceptionHandling;
 

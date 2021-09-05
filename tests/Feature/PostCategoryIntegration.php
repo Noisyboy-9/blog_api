@@ -1,6 +1,6 @@
 <?php
 
-use App\blog_api\posts\PostStatusEnum;
+use App\blog_api\Posts\PostStatusEnum;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Collection;
 use function Pest\Laravel\assertDatabaseHas;

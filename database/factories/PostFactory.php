@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\blog_api\posts\PostStatusEnum;
+use App\blog_api\Posts\PostStatusEnum;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
