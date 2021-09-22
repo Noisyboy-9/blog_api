@@ -2,26 +2,24 @@
 
 namespace App\blog_api\Traits;
 
-use App\Models\User;
 use App\Models\View;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Redis;
 
 trait HasManyViewsTrait
 {
-    public function addViewIfNotExist(User $viewer)
+    public function addViewer(Authenticatable $viewer)
     {
-        if (!$this->viewerExist($viewer)) {
-            return $this->views()->create([
-                'viewer_id' => $viewer->id
-            ]);
-        }
+        $this->addViewToDatabase($viewer);
+        $this->incrementViewCountCache();
     }
 
-    public function viewerExist(User $viewer): bool
+    private function addViewToDatabase(Authenticatable $viewer): void
     {
-        return $this->views()
-            ->where('viewer_id', $viewer->id)
-            ->exists();
+        $this->views()->create([
+            'viewer_id' => $viewer->id
+        ]);
     }
 
     public function views(): HasMany
@@ -29,8 +27,20 @@ trait HasManyViewsTrait
         return $this->hasMany(View::class, 'post_id', 'id');
     }
 
+    private function incrementViewCountCache()
+    {
+        Redis::incr("posts:$this->id:views");
+    }
+
+    public function hasViewer(Authenticatable $viewer): bool
+    {
+        return $this->views()
+            ->where('viewer_id', $viewer->id)
+            ->exists();
+    }
+
     public function viewsCount(): int
     {
-        return $this->views()->count();
+        return Redis::get("posts:$this->id:views") ?? 0;
     }
 }
