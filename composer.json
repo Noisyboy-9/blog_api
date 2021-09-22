@@ -12,9 +12,11 @@
         "friendsofphp/php-cs-fixer": "^3.1",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
+        "josiasmontag/laravel-redis-mock": "^1.2",
         "laravel/framework": "^8.54",
         "laravel/sanctum": "^2.11",
-        "laravel/tinker": "^2.5"
+        "laravel/tinker": "^2.5",
+        "predis/predis": "^1.1"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.10",
@@ -25,7 +27,8 @@
         "nunomaduro/collision": "^5.0",
         "pestphp/pest": "^1.15",
         "pestphp/pest-plugin-laravel": "^1.1",
-        "phpunit/phpunit": "^9.3.3"
+        "phpunit/phpunit": "^9.3.3",
+        "ext-redis": "*"
     },
     "autoload": {
         "psr-4": {

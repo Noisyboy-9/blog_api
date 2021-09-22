@@ -3,6 +3,9 @@
 use App\blog_api\Posts\PostStatusEnum;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Redis;
+
+beforeEach(fn () => Redis::flushAll());
 
 it('should belong to a category', function () {
     $category = addNewCategory();
@@ -61,19 +64,22 @@ it('can publish itself', function () {
     expect($post->isDrafted())->toBeFalse();
 });
 
-it("can add a view if the viewer_id doesn't exist", function () {
+it('can add a viewer to the list of its viewers', function () {
     $viewer = signIn();
     $post = addNewPost();
 
-    $post->addViewIfNotExist($viewer);
+    $post->addViewer($viewer);
 
-    expect($post->viewsCount())->toEqual(1);
+    expect($post->viewsCount())
+        ->toEqual(1)
+        ->and($post->hasViewer($viewer))->toBeTrue();
 });
+
 it('may have many views', function () {
     $viewer = signIn();
     $post = addNewPost();
 
-    $post->addViewIfNotExist($viewer);
+    $post->addViewer($viewer);
 
     expect($post->views)
         ->not()->toBeNull()
@@ -81,12 +87,35 @@ it('may have many views', function () {
         ->toHaveCount(1);
 });
 
+it('can check if a user has already viewed it or not', function () {
+    $viewer = signin();
+    $post = addnewpost();
+
+    expect($post->hasViewer($viewer))
+        ->toBeFalse()
+        ->and($post->viewsCount())->toEqual(0);
+});
+
+it('increments view count cache when adding a new viewer', function () {
+    $viewer = signin();
+    $post = addnewpost();
+
+//    before a post be viewed in redis it must have view value of zero
+    expect(Redis::get("posts:$post->id:views"))->toEqual(0)
+        ->and($post->viewsCount())->toEqual(0);
+
+    $post->addViewer($viewer);
+
+//    after post has been viewed the redis must be updated
+    expect(Redis::get("posts:$post->id:views"))->toEqual(1)
+        ->and($post->viewsCount())->toEqual(1);
+});
+
 it('can count its own view count', function () {
     $viewer = signIn();
     $post = addNewPost();
 
-    $post->addViewIfNotExist($viewer);
-
+    $post->addViewer($viewer);
     expect($post->viewsCount())->toEqual(1);
 });
 
@@ -94,7 +123,7 @@ it('can know if a post has been viewed by a viewer in the past or not', function
     $viewer = signIn();
     $post = addNewPost();
 
-    $post->addViewIfNotExist($viewer);
+    $post->addViewer($viewer);
 
-    expect($post->viewerExist($viewer))->toBeTrue();
+    expect($post->hasViewer($viewer))->toBeTrue();
 });

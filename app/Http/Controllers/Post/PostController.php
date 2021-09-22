@@ -25,8 +25,10 @@ class PostController extends Controller
 
     public function show(Post $post): JsonResponse
     {
+        if (!$post->hasViewer(auth()->user())) {
+            $post->addViewer(auth()->user());
+        }
 
-        $post->addViewIfNotExist(auth()->user());
         $post->view_count = $post->viewsCount();
 
         return response()->json([

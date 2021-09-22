@@ -8,7 +8,7 @@ with more features.
 
 - Post CRUD: a post can be created, read, updated and deleted.
 - Post comment CRUD: a post may have many comments which can be created, read, updated and deleted by the owner.
-- Post view: There is a table for saving every post view and its view count.
+- Post view: There is a table for saving every post view and its view count and using redis to cache a count of views.
 - Category CRUD: a post must have a category which it can be created, read, updated and deleted.
 - Post bookmark: a user can bookmark many posts, and can view all bookmarked posts.
 - authentication: using laravel sanctum to implement authentication in the project.
@@ -28,3 +28,5 @@ with more features.
 - using integers to represent enum instead of storing an enum in the database.
 - using StatusManager classes to separate enum behaviour from other parts of the code.
 - using third-party libraries to implement authentication.
+- using redis in a well-designed architecture to cache post views count and make it much faster to retrieve post
+- views count.

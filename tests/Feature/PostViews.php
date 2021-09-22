@@ -38,8 +38,8 @@ it('should give the view_count when fetching a single post', function () {
     $post = addNewPost();
 
     expect(getJson("/api/posts/{$post->slug}")->content())
-    ->json()
-    ->data->json()
-    ->toBeArray()
-    ->toHaveKey('view_count', $post->viewsCount());
+        ->json()
+        ->data->json()
+        ->toBeArray()
+        ->toHaveKey('view_count', $post->viewsCount());
 });
