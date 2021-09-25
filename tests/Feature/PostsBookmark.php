@@ -60,3 +60,19 @@ it('should be able to get a users bookmarks', function () {
 it('a user should be logged in to get a users bookmarks')
     ->getJson('/api/user/bookmarks')
     ->throws(AuthenticationException::class);
+
+test("a user can't bookmark a post twice", function () {
+    $user = signIn();
+
+    $post1 = addNewPost();
+
+    $user->bookmark($post1);
+
+    $response = postJson("api/posts/$post1->slug/bookmark");
+
+    expect($response->content())
+        ->json()
+        ->message->toEqual('Post has been already bookmarked')
+        ->and($response->status())->toEqual(403)
+        ->and($user->bookmarks()->count())->toEqual(1);
+});

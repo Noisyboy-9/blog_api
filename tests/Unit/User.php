@@ -73,3 +73,12 @@ it('may have many bookmarks', function () {
         ->toBeInstanceOf(Collection::class)
         ->toHaveCount(1);
 });
+
+it('can check if it has already bookmarked a post', function () {
+    $user = signIn();
+    $post = addNewPost();
+
+    $user->bookmark($post);
+
+    expect($user->hasBookmark($post))->toBeTrue();
+});
