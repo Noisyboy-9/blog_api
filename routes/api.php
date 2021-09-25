@@ -13,7 +13,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('/posts/{post}')->group(function () {
         Route::apiResource('comments', PostsCommentController::class);
         Route::post('/publish', PostsPublishController::class);
-        Route::get('/bookmark', [PostsBookmarkController::class, 'store']);
+        Route::post('/bookmark', [PostsBookmarkController::class, 'store']);
     });
     Route::apiResource('categories', CategoryController::class);
 

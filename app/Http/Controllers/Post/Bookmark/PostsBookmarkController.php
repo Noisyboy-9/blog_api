@@ -15,6 +15,12 @@ class PostsBookmarkController extends Controller
 
     public function store(Post $post): JsonResponse
     {
+        if (auth()->user()->hasBookmark($post)) {
+            return response()->json([
+                'message' => 'Post has been already bookmarked',
+            ], 403);
+        }
+
         auth()->user()->bookmark($post);
 
         return response()->json([

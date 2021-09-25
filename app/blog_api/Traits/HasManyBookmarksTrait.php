@@ -19,4 +19,11 @@ trait HasManyBookmarksTrait
             ->belongsToMany(Post::class, 'bookmarks')
             ->withTimestamps();
     }
+
+    public function hasBookmark(Post $post): bool
+    {
+        return $this->bookmarks()
+            ->where('slug', $post->slug)
+            ->exists();
+    }
 }
