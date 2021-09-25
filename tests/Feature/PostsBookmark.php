@@ -3,6 +3,7 @@
 use Illuminate\Auth\AuthenticationException;
 use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\getJson;
+use function Pest\Laravel\postJson;
 use function Pest\Laravel\withoutExceptionHandling;
 
 beforeEach(fn () => withoutExceptionHandling());
@@ -11,7 +12,7 @@ it('can bookmark a post', function () {
     $user = signIn();
     $post = addNewPost();
 
-    $response = getJson("api/posts/$post->slug/bookmark");
+    $response = postJson("api/posts/$post->slug/bookmark");
 
     expect($response->content())
         ->json()
@@ -31,7 +32,7 @@ it('can bookmark a post', function () {
 
 it('should be logged in to be able to bookmark a post', function () {
     $post = addNewPost();
-    expect(getJson("/api/posts/$post->slug/bookmark"));
+    expect(postJson("/api/posts/$post->slug/bookmark"));
 })->throws(AuthenticationException::class);
 
 it('should be able to get a users bookmarks', function () {
