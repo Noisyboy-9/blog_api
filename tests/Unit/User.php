@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Database\Eloquent\Collection;
-use function Pest\Laravel\assertDatabaseHas;
+beforeEach(fn () => \Illuminate\Support\Facades\Redis::flushAll());
+
+use Illuminate\Support\Collection;
 
 test('a user may have a post', function () {
     $user = signIn();
@@ -55,10 +56,7 @@ it('can bookmark a post', function () {
 
     $user->bookmark($post);
 
-    assertDatabaseHas('bookmarks', [
-        'user_id' => $user->id,
-        'post_id' => $post->id
-    ]);
+    expect($user->hasBookmark($post))->toBeTrue();
 });
 
 it('may have many bookmarks', function () {
@@ -67,11 +65,10 @@ it('may have many bookmarks', function () {
 
     $user->bookmark($post);
 
-    expect($user->bookmarks)
-        ->not->toBeNull()
-        ->not->toBeEmpty()
+
+    expect($user->bookmarks())
         ->toBeInstanceOf(Collection::class)
-        ->toHaveCount(1);
+        ->toHaveLength(1);
 });
 
 it('can check if it has already bookmarked a post', function () {
